@@ -38,13 +38,126 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-lg-8">
                   <div class="panel panel-primary">
                     <div class="panel-heading">
-                      <h3 class="panel-title">License</h3>
+                      <div class="checkbox no-margin">
+                        <label>
+                          <input type="checkbox" id="includeLicenses" value="includeLicenses"> 
+                          <h3 class="panel-title">
+                          License
+                          </h3>
+                        </label>
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Licenses are split between software and content." data-balloon-pos="right">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button>
+                      </div>
                     </div>
                     <div class="panel-body">
-                      
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="checkbox no-margin">
+                            <label>
+                              <input type="checkbox" id="includeSoftwareLicense" value="includeSoftwareLicense"> 
+                              <h3 class="panel-title">
+                                Software
+                              </h3>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="panel-body">
+                          <label class="control-label">Choose a software license</label>
+                          <form class="form-inline" role="form">
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="software_license_choose" id="software_license_choose_1" value="﻿AGPL"> ﻿GNU Affero General Public License (﻿AGPL) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_2" value="﻿GPL"> ﻿GNU General Public License (﻿GPL) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_3" value="﻿LGPL"> ﻿GNU Lesser General Public License (﻿LGPL) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_4" value="﻿MPL"> ﻿﻿Mozilla Public License (MPL) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_5" value="﻿Apache"> ﻿﻿Apache License (Apache) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_6" value="﻿MIT"> ﻿﻿MIT License (MIT) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_7" value="﻿Unlicense"> ﻿The Unlicense (﻿Unlicense) 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" id="software_license_choose_8" name="software_license_choose" value="other">
+                                  Other: 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <input placeholder="Other license" type="text" class="form-control" id="other_software_license" data-rule-required="true">
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="checkbox no-margin">
+                            <label>
+                              <input type="checkbox" id="includeContentLicense" value="includeContentLicense"> 
+                              <h3 class="panel-title">
+                                Content
+                              </h3>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="panel-body">
+                          Content
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        Result
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                      <pre><samp id="resultDisplay"></samp></pre>
                     </div>
                   </div>
                 </div>
@@ -54,7 +167,7 @@
           ]
         }
       },
-      css: [ 'ccm.load', 'css/bootstrap.min.css', 'css/default.css' ],
+      css: [ 'ccm.load', 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/default.css' ],
       //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
       no_bootstrap_container: false // Set to true if embedded on a site that already has a bootstrap container div
     },
@@ -72,10 +185,33 @@
       const self = this;
 
       /**
-       * Stores the generated metadata
+       * Stores which part of the metadata are active
        * @type {{}}
        */
-      let generatedMetadata = {
+      let metadataActive = {
+        "license": {
+          "self": false,
+          "software": false,
+          "content": false
+        }
+      };
+
+      /**
+       * Stores the metadata from currently selected options, even the disabled ones
+       * @type {{}}
+       */
+      let metadataStore = {
+        "license": {
+          "software": '',
+          "content": ''
+        }
+      };
+
+      /**
+       * Contains only the activated parts of the metadata
+       * @type {{}}
+       */
+      let displayedResultMetadata = {
 
       };
 
@@ -94,12 +230,91 @@
 
         const mainElement = this.ccm.helper.html(this.html.main, {
         });
-
-
-
         this.element.appendChild(mainElement);
 
+        mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
+          metadataActive.license.self = this.checked;
+          generateResult();
+        });
 
+        mainElement.querySelector('#includeSoftwareLicense').addEventListener('change', function() {
+          metadataActive.license.software = this.checked;
+          generateResult();
+        });
+
+        mainElement.querySelector('#includeContentLicense').addEventListener('change', function() {
+          metadataActive.license.content = this.checked;
+          generateResult();
+        });
+
+        Array.from(mainElement.querySelectorAll('input[name=software_license_choose]')).forEach(radio => {
+          radio.addEventListener('change', function () {
+            metadataStore.license.software = this.value;
+            switch (this.value) {
+              case '﻿AGPL':
+                metadataStore.license.software = '﻿AGPL-3.0-only';
+                break;
+              case '﻿GPL':
+                metadataStore.license.software = '﻿GPL-3.0-only';
+                break;
+              case '﻿LGPL':
+                metadataStore.license.software = '﻿LGPL-3.0-only';
+                break;
+              case '﻿MPL':
+                metadataStore.license.software = '﻿MPL-2.0';
+                break;
+              case '﻿Apache':
+                metadataStore.license.software = '﻿Apache-2.0';
+                break;
+              case '﻿MIT':
+                metadataStore.license.software = '﻿MIT';
+                break;
+              case '﻿Unlicense':
+                metadataStore.license.software = '﻿Unlicense';
+                break;
+              case 'other':
+                metadataStore.license.software = mainElement.querySelector('#other_software_license').value;
+                break;
+              default:
+                metadataStore.license.software = '';
+                break;
+            }
+            generateResult();
+          });
+        });
+
+        mainElement.querySelector('#other_software_license').addEventListener('input', function() {
+          if (mainElement.querySelector('#software_license_choose_8').checked) {
+            metadataStore.license.software = this.value;
+            generateResult();
+          }
+        });
+
+        function generateLicense() {
+          if (metadataActive.license.self) {
+            displayedResultMetadata.license = {};
+            if (metadataActive.license.software) {
+              displayedResultMetadata.license.software = metadataStore.license.software;
+            } else {
+              delete displayedResultMetadata.license.software;
+            }
+            if (metadataActive.license.content) {
+              displayedResultMetadata.license.content = metadataStore.license.content;
+            } else {
+              delete displayedResultMetadata.license.content;
+            }
+          } else {
+            delete displayedResultMetadata.license;
+          }
+        }
+
+        /**
+         * Generate resulting metadata
+         */
+        function generateResult() {
+          generateLicense();
+          mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(displayedResultMetadata, null, 2);
+        }
 
         // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
         function objectByString(o, s) {
@@ -118,8 +333,8 @@
         }
 
         // https://stackoverflow.com/questions/18936915/dynamically-set-property-of-nested-object
-        function setNewConfigValue(path, value) {
-          let schema = loadedComponent.config;
+        function setMetadata(path, value) {
+          let schema = metadataStore;
           let pList = path.split('.');
           let len = pList.length;
           for(let i = 0; i < len-1; i++) {
