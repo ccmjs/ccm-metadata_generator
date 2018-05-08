@@ -43,7 +43,7 @@
                     <label for="creatorInput">Creator</label>
                     <div class="input-group">
                       <span class="input-group-addon">
-                        <input type="checkbox" id="includeCreator">
+                        <input type="checkbox" id="includeCreator" class="metaFieldCheckbox">
                       </span>
                       <input type="text" class="form-control" id="creatorInput">
                     </div>
@@ -52,7 +52,7 @@
                     <div class="panel-heading">
                       <div class="checkbox no-margin">
                         <label>
-                          <input type="checkbox" id="includeLicenses" value="includeLicenses"> 
+                          <input type="checkbox" id="includeLicenses" value="includeLicenses" class="metaFieldCheckbox"> 
                           <h3 class="panel-title">
                           License
                           </h3>
@@ -67,7 +67,7 @@
                         <div class="panel-heading">
                           <div class="checkbox no-margin">
                             <label>
-                              <input type="checkbox" id="includeSoftwareLicense" value="includeSoftwareLicense"> 
+                              <input type="checkbox" id="includeSoftwareLicense" value="includeSoftwareLicense" class="metaFieldCheckbox"> 
                               <h3 class="panel-title">
                                 Software
                               </h3>
@@ -144,7 +144,7 @@
                         <div class="panel-heading">
                           <div class="checkbox no-margin">
                             <label>
-                              <input type="checkbox" id="includeContentLicense" value="includeContentLicense"> 
+                              <input type="checkbox" id="includeContentLicense" value="includeContentLicense" class="metaFieldCheckbox"> 
                               <h3 class="panel-title">
                                 Content
                               </h3>
@@ -159,6 +159,22 @@
                   </div>
                 </div>
                 <div class="col-lg-4">
+                  <div class="panel panel-info">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        Settings
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                      <button class="btn btn-default" id="activateAllFields">Activate all fields</button>
+                      <button class="btn btn-default" id="deactivateAllFields">Deactivate all fields</button>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="panel panel-primary">
                     <div class="panel-heading">
                       <h3 class="panel-title">
@@ -192,6 +208,14 @@
        * @type {Instance}
        */
       const self = this;
+
+      /**
+       * Settings
+       * @type {{interpretCommaAsArraySeparator: boolean}}
+       */
+      let settings = {
+        interpretCommaAsArraySeparator: false
+      };
 
       /**
        * Stores which part of the metadata are active
@@ -242,6 +266,31 @@
         const mainElement = this.ccm.helper.html(this.html.main, {
         });
         this.element.appendChild(mainElement);
+
+        mainElement.querySelector('#activateAllFields').addEventListener('click', function() {
+          mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
+            checkbox.checked = true;
+            const event = document.createEvent('HTMLEvents');
+            event.initEvent('change', false, true);
+            checkbox.dispatchEvent(event);
+          });
+          generateResult();
+        });
+
+        mainElement.querySelector('#deactivateAllFields').addEventListener('click', function() {
+          mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
+            checkbox.checked = false;
+            const event = document.createEvent('HTMLEvents');
+            event.initEvent('change', false, true);
+            checkbox.dispatchEvent(event);
+          });
+          generateResult();
+        });
+
+        mainElement.querySelector('#settingArray').addEventListener('change', function() {
+          settings.interpretCommaAsArraySeparator = this.checked;
+          generateResult();
+        });
 
         mainElement.querySelector('#includeCreator').addEventListener('change', function() {
           metadataActive.creator = this.checked;
@@ -311,6 +360,14 @@
           }
         });
 
+        function generateCreator() {
+          if (metadataActive.creator) {
+            displayedResultMetadata.creator = interpretValue(metadataStore.creator);
+          } else {
+            delete displayedResultMetadata.creator;
+          }
+        }
+
         function generateLicense() {
           if (metadataActive.license.self) {
             displayedResultMetadata.license = {};
@@ -329,14 +386,6 @@
           }
         }
 
-        function generateCreator() {
-          if (metadataActive.creator) {
-            displayedResultMetadata.creator = metadataStore.creator;
-          } else {
-            delete displayedResultMetadata.creator;
-          }
-        }
-
         /**
          * Generate resulting metadata
          */
@@ -344,6 +393,14 @@
           generateCreator();
           generateLicense();
           mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(displayedResultMetadata, null, 2);
+        }
+
+        function interpretValue(value) {
+          if (settings.interpretCommaAsArraySeparator) {
+            return value.split(',').map(value => value.trim());
+          } else {
+            return value;
+          }
         }
 
         // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
