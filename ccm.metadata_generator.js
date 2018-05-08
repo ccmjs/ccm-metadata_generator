@@ -39,7 +39,16 @@
               </div>
               <div class="row">
                 <div class="col-lg-8">
-                  <div class="panel panel-primary">
+                  <div class="form-group">
+                    <label for="creatorInput">Creator</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeCreator">
+                      </span>
+                      <input type="text" class="form-control" id="creatorInput">
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
                     <div class="panel-heading">
                       <div class="checkbox no-margin">
                         <label>
@@ -157,7 +166,7 @@
                       </h3>
                     </div>
                     <div class="panel-body">
-                      <pre><samp id="resultDisplay"></samp></pre>
+                      <pre><samp id="resultDisplay">{}</samp></pre>
                     </div>
                   </div>
                 </div>
@@ -189,6 +198,7 @@
        * @type {{}}
        */
       let metadataActive = {
+        "creator": false,
         "license": {
           "self": false,
           "software": false,
@@ -201,6 +211,7 @@
        * @type {{}}
        */
       let metadataStore = {
+        "creator": "",
         "license": {
           "software": '',
           "content": ''
@@ -231,6 +242,16 @@
         const mainElement = this.ccm.helper.html(this.html.main, {
         });
         this.element.appendChild(mainElement);
+
+        mainElement.querySelector('#includeCreator').addEventListener('change', function() {
+          metadataActive.creator = this.checked;
+          generateResult();
+        });
+
+        mainElement.querySelector('#creatorInput').addEventListener('input', function() {
+          metadataStore.creator = this.value;
+          generateResult();
+        });
 
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
@@ -308,10 +329,19 @@
           }
         }
 
+        function generateCreator() {
+          if (metadataActive.creator) {
+            displayedResultMetadata.creator = metadataStore.creator;
+          } else {
+            delete displayedResultMetadata.creator;
+          }
+        }
+
         /**
          * Generate resulting metadata
          */
         function generateResult() {
+          generateCreator();
           generateLicense();
           mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(displayedResultMetadata, null, 2);
         }
