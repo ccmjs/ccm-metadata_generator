@@ -38,15 +38,51 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-lg-12">
+                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-lg-8">
                   <div class="form-group">
-                    <label for="creatorInput">Creator</label>
+                    <label for="inputTitle">Title</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeTitle" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputTitle">
+                    </div>
+                    <p class="help-block">Title of the component.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputCreator">Creator</label>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeCreator" class="metaFieldCheckbox">
                       </span>
-                      <input type="text" class="form-control" id="creatorInput">
+                      <input type="text" class="form-control" id="inputCreator">
                     </div>
+                    <p class="help-block">Creator of the component. Multiple creators can be separated by commas(,).</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSubject">Subject</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeSubject" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputSubject">
+                    </div>
+                    <p class="help-block">Subject of the component.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDescription">Description</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeDescription" class="metaFieldCheckbox">
+                      </span>
+                      <textarea class="form-control" rows="3" id="inputDescription"></textarea>
+                    </div>
+                    <p class="help-block">Description of the component.</p>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -222,7 +258,10 @@
        * @type {{}}
        */
       let metadataActive = {
+        "title": false,
         "creator": false,
+        "subject": false,
+        "description": false,
         "license": {
           "self": false,
           "software": false,
@@ -235,10 +274,13 @@
        * @type {{}}
        */
       let metadataStore = {
+        "title": "",
         "creator": "",
+        "subject": "",
+        "description": "",
         "license": {
-          "software": '',
-          "content": ''
+          "software": "",
+          "content": ""
         }
       };
 
@@ -246,7 +288,7 @@
        * Contains only the activated parts of the metadata
        * @type {{}}
        */
-      let displayedResultMetadata = {
+      let resultingMetadata = {
 
       };
 
@@ -292,15 +334,26 @@
           generateResult();
         });
 
-        mainElement.querySelector('#includeCreator').addEventListener('change', function() {
-          metadataActive.creator = this.checked;
-          generateResult();
-        });
+        /**
+         * Adds event listeners for checkbox and input of a field
+         * @param key Key in lowercase
+         */
+        function createEventListenersForField(key) {
+          mainElement.querySelector('#include' + capitalizeFirstLetter(key.toLowerCase())).addEventListener('change', function() {
+            metadataActive[key] = this.checked;
+            generateResult();
+          });
 
-        mainElement.querySelector('#creatorInput').addEventListener('input', function() {
-          metadataStore.creator = this.value;
-          generateResult();
-        });
+          mainElement.querySelector('#input' + capitalizeFirstLetter(key.toLowerCase())).addEventListener('input', function() {
+            metadataStore[key] = this.value;
+            generateResult();
+          });
+        }
+
+        createEventListenersForField('title');
+        createEventListenersForField('creator');
+        createEventListenersForField('subject');
+        createEventListenersForField('description');
 
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
@@ -360,29 +413,37 @@
           }
         });
 
-        function generateCreator() {
-          if (metadataActive.creator) {
-            displayedResultMetadata.creator = interpretValue(metadataStore.creator);
+        function generateWithoutInterpretation(key) {
+          if (metadataActive[key]) {
+            resultingMetadata[key] = metadataStore[key];
           } else {
-            delete displayedResultMetadata.creator;
+            delete resultingMetadata[key];
+          }
+        }
+
+        function generateWithInterpretation(key) {
+          if (metadataActive[key]) {
+            resultingMetadata[key] = interpretValue(metadataStore[key]);
+          } else {
+            delete resultingMetadata[key];
           }
         }
 
         function generateLicense() {
           if (metadataActive.license.self) {
-            displayedResultMetadata.license = {};
+            resultingMetadata.license = {};
             if (metadataActive.license.software) {
-              displayedResultMetadata.license.software = metadataStore.license.software;
+              resultingMetadata.license.software = metadataStore.license.software;
             } else {
-              delete displayedResultMetadata.license.software;
+              delete resultingMetadata.license.software;
             }
             if (metadataActive.license.content) {
-              displayedResultMetadata.license.content = metadataStore.license.content;
+              resultingMetadata.license.content = metadataStore.license.content;
             } else {
-              delete displayedResultMetadata.license.content;
+              delete resultingMetadata.license.content;
             }
           } else {
-            delete displayedResultMetadata.license;
+            delete resultingMetadata.license;
           }
         }
 
@@ -390,46 +451,29 @@
          * Generate resulting metadata
          */
         function generateResult() {
-          generateCreator();
+          generateWithoutInterpretation('title');
+          generateWithInterpretation('creator');
+          generateWithoutInterpretation('subject');
+          generateWithoutInterpretation('description');
           generateLicense();
-          mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(displayedResultMetadata, null, 2);
+          mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(resultingMetadata, null, 2);
         }
 
         function interpretValue(value) {
           if (settings.interpretCommaAsArraySeparator) {
-            return value.split(',').map(value => value.trim());
+            // Only convert to an array if at least one comma is present
+            if (value.includes(',')) {
+              return value.split(',').map(value => value.trim());
+            } else {
+              return value;
+            }
           } else {
             return value;
           }
         }
 
-        // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-with-string-key
-        function objectByString(o, s) {
-          s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-          s = s.replace(/^\./, '');           // strip a leading dot
-          let a = s.split('.');
-          for (let i = 0, n = a.length; i < n; ++i) {
-            let k = a[i];
-            if (k in o) {
-              o = o[k];
-            } else {
-              return;
-            }
-          }
-          return o;
-        }
-
-        // https://stackoverflow.com/questions/18936915/dynamically-set-property-of-nested-object
-        function setMetadata(path, value) {
-          let schema = metadataStore;
-          let pList = path.split('.');
-          let len = pList.length;
-          for(let i = 0; i < len-1; i++) {
-            let elem = pList[i];
-            schema = objectByString(schema, elem);
-          }
-
-          schema[pList[len-1]] = value;
+        function capitalizeFirstLetter(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         if ( callback ) callback();
@@ -440,7 +484,7 @@
        * @returns {object} metadata of component
        */
       this.getValue = () => {
-        return this.ccm.helper.clone(loadedComponent.meta);
+        return this.ccm.helper.clone(resultingMetadata);
       };
 
       /**
