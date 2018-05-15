@@ -146,6 +146,26 @@
                     </div>
                     <p class="help-block">An unambiguous reference to the resource within a given context.</p>
                   </div>
+                  <div class="form-group">
+                    <label for="inputPath">Path</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includePath" class="metaFieldCheckbox">
+                      </span>
+                      <input type="url" class="form-control" id="inputPath">
+                    </div>
+                    <p class="help-block">URL where the resource can be found.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSource">Source</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeSource" class="metaFieldCheckbox">
+                      </span>
+                      <input type="url" class="form-control" id="inputSource">
+                    </div>
+                    <p class="help-block">URL to a related resource from which this resource is derived.</p>
+                  </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
                       <div class="checkbox no-margin">
@@ -337,6 +357,8 @@
         "date": false,
         "format": false,
         "identifier": false,
+        "path": false,
+        "source": false,
         "license": {
           "self": false,
           "software": false,
@@ -358,6 +380,8 @@
         "date": "",
         "format": "application/javascript",
         "identifier": "",
+        "path": "",
+        "source": "",
         "license": {
           "software": "",
           "content": ""
@@ -460,6 +484,8 @@
         createEventListenersForField('date');
         createEventListenersForField('format');
         createEventListenersForField('identifier');
+        createEventListenersForField('path');
+        createEventListenersForField('source');
 
         mainElement.querySelector('#buttonGenerateIdentifier').addEventListener('click', function() {
           const inputIdentifier = mainElement.querySelector('#inputIdentifier');
@@ -589,6 +615,8 @@
           generateDate();
           generateWithoutInterpretation('format');
           generateWithoutInterpretation('identifier');
+          generateWithoutInterpretation('path');
+          generateWithoutInterpretation('source');
           generateLicense();
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
