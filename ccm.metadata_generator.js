@@ -281,6 +281,7 @@
                         </h3>
                       </div>
                       <div class="panel-body">
+                        <button class="btn btn-default" id="buttonCopyResultToClipboard" style="margin-bottom: 15px;">Copy result to clipboard</button>
                         <pre><samp id="resultDisplay">{}</samp></pre>
                       </div>
                     </div>
@@ -430,6 +431,10 @@
           generateResult();
         });
 
+        mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function() {
+          copyToClipboard(generateResult());
+        });
+
         /**
          * Adds event listeners for checkbox and input of a field
          * @param key Key in lowercase
@@ -571,6 +576,7 @@
 
         /**
          * Generate resulting metadata
+         * @returns {string} Metadata as string
          */
         function generateResult() {
           resultingMetadata = {}; // This ensures that all keys are added in order
@@ -584,7 +590,9 @@
           generateWithoutInterpretation('format');
           generateWithoutInterpretation('identifier');
           generateLicense();
-          mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(resultingMetadata, null, 2);
+          const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
+          mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
+          return resultingMetadataString;
         }
 
         function interpretValue(value) {
@@ -610,6 +618,27 @@
             (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
           );
         }
+
+        // https://hackernoon.com/copying-text-to-clipboard-with-javascript-df4d4988697f
+        function copyToClipboard(str) {
+          const el = document.createElement('textarea');  // Create a <textarea> element
+          el.value = str;                                 // Set its value to the string that you want copied
+          el.setAttribute('readonly', '');                // Make it readonly to be tamper-proof
+          el.style.position = 'absolute';
+          el.style.left = '-9999px';                      // Move outside the screen to make it invisible
+          document.body.appendChild(el);                  // Append the <textarea> element to the HTML document
+          const selected =
+            document.getSelection().rangeCount > 0        // Check if there is any content selected previously
+              ? document.getSelection().getRangeAt(0)     // Store selection if found
+              : false;                                    // Mark as false to know no selection existed before
+          el.select();                                    // Select the <textarea> content
+          document.execCommand('copy');                   // Copy - only works as a result of a user action (e.g. click events)
+          document.body.removeChild(el);                  // Remove the <textarea> element
+          if (selected) {                                 // If a selection existed before copying
+            document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
+            document.getSelection().addRange(selected);   // Restore the original selection
+          }
+        };
 
         if ( callback ) callback();
       };
