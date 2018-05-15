@@ -1,5 +1,5 @@
 /**
- * @overview ccm metadata generator to create metadata of components
+ * @overview ccm metadata generator to create metadata of components and configs
  * @author Leon Eck <leon.eck@smail.inf.h-brs.de> 2018
  * @license The MIT License (MIT)
  */
@@ -52,7 +52,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputTitle">
                     </div>
-                    <p class="help-block">Title of the component.</p>
+                    <p class="help-block">Title of the resource.</p>
                   </div>
                   <div class="form-group">
                     <label for="inputCreator">Creator</label>
@@ -62,7 +62,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputCreator">
                     </div>
-                    <p class="help-block">An entity primarily responsible for making the component. Multiple creators can be separated by commas(,).</p>
+                    <p class="help-block">An entity primarily responsible for making the resource. Multiple creators can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
                     <label for="inputSubject">Subject</label>
@@ -72,7 +72,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputSubject">
                     </div>
-                    <p class="help-block">Topic of the component.</p>
+                    <p class="help-block">Topic of the resource.</p>
                   </div>
                   <div class="form-group">
                     <label for="inputDescription">Description</label>
@@ -82,7 +82,7 @@
                       </span>
                       <textarea class="form-control" rows="3" id="inputDescription"></textarea>
                     </div>
-                    <p class="help-block">Description of the component.</p>
+                    <p class="help-block">Description of the resource.</p>
                   </div>
                   <div class="form-group">
                     <label for="inputPublisher">Publisher</label>
@@ -102,7 +102,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputContributor">
                     </div>
-                    <p class="help-block">An entity responsible for making contributions to the component. Multiple contributors can be separated by commas(,).</p>
+                    <p class="help-block">An entity responsible for making contributions to the resource. Multiple contributors can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
                     <label for="inputDate">Date <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
@@ -114,7 +114,7 @@
                       </span>
                       <input type="date" class="form-control" id="inputDate">
                     </div>
-                    <p class="help-block">The date the component was published. Format: YYYY-MM-DD</p>
+                    <p class="help-block">The date the resource was published. Format: YYYY-MM-DD</p>
                   </div>
                   <div class="form-group">
                     <label for="inputFormat">Format <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, choose application/javascript. If it's applied to a configuration choose 	application/json." data-balloon-pos="right">
@@ -130,6 +130,21 @@
                       </select>
                     </div>
                     <p class="help-block">The file format of the resource.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputIdentifier">Identifier <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If you already have a unique identifier for the resource, use that one. Otherwise please generate one." data-balloon-pos="right">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button></label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeIdentifier" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputIdentifier">
+                      <span class="input-group-btn">
+                        <button type="button" id="buttonGenerateIdentifier" class="btn btn-default">Generate</button>
+                      </span>
+                    </div>
+                    <p class="help-block">An unambiguous reference to the resource within a given context.</p>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -320,6 +335,7 @@
         "contributor": false,
         "date": false,
         "format": false,
+        "identifier": false,
         "license": {
           "self": false,
           "software": false,
@@ -340,6 +356,7 @@
         "contributor": "",
         "date": "",
         "format": "application/javascript",
+        "identifier": "",
         "license": {
           "software": "",
           "content": ""
@@ -437,6 +454,16 @@
         createEventListenersForField('contributor');
         createEventListenersForField('date');
         createEventListenersForField('format');
+        createEventListenersForField('identifier');
+
+        mainElement.querySelector('#buttonGenerateIdentifier').addEventListener('click', function() {
+          const inputIdentifier = mainElement.querySelector('#inputIdentifier');
+          inputIdentifier.value = uuidv4();
+          const event = document.createEvent('HTMLEvents');
+          event.initEvent('input', false, true);
+          inputIdentifier.dispatchEvent(event);
+          generateResult();
+        });
 
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
@@ -555,6 +582,7 @@
           generateWithInterpretation('contributor');
           generateDate();
           generateWithoutInterpretation('format');
+          generateWithoutInterpretation('identifier');
           generateLicense();
           mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(resultingMetadata, null, 2);
         }
@@ -576,12 +604,19 @@
           return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
+        // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+        function uuidv4() {
+          return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+          );
+        }
+
         if ( callback ) callback();
       };
 
       /**
-       * Returns the new metadata of the component
-       * @returns {object} metadata of component
+       * Returns the new metadata of the resource
+       * @returns {object} metadata of resource
        */
       this.getValue = () => {
         return this.ccm.helper.clone(resultingMetadata);
