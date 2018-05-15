@@ -105,16 +105,31 @@
                     <p class="help-block">An entity responsible for making contributions to the component. Multiple contributors can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputDate">Date</label>
+                    <label for="inputDate">Date <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button></label>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeDate" class="metaFieldCheckbox">
                       </span>
                       <input type="date" class="form-control" id="inputDate">
                     </div>
-                    <p class="help-block">The date the component was published. Format: YYYY-MM-DD <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
+                    <p class="help-block">The date the component was published. Format: YYYY-MM-DD</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputFormat">Format <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, choose application/javascript. If it's applied to a configuration choose 	application/json." data-balloon-pos="right">
                           <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                        </button></p>
+                        </button></label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeFormat" class="metaFieldCheckbox">
+                      </span>
+                      <select class="form-control" id="inputFormat">
+                        <option value="application/javascript" selected>application/javascript</option>
+                        <option value="application/json">application/json</option>
+                      </select>
+                    </div>
+                    <p class="help-block">The file format of the resource.</p>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -304,6 +319,7 @@
         "publisher": false,
         "contributor": false,
         "date": false,
+        "format": false,
         "license": {
           "self": false,
           "software": false,
@@ -323,6 +339,7 @@
         "publisher": "",
         "contributor": "",
         "date": "",
+        "format": "application/javascript",
         "license": {
           "software": "",
           "content": ""
@@ -419,6 +436,7 @@
         createEventListenersForField('publisher');
         createEventListenersForField('contributor');
         createEventListenersForField('date');
+        createEventListenersForField('format');
 
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
@@ -528,6 +546,7 @@
          * Generate resulting metadata
          */
         function generateResult() {
+          resultingMetadata = {}; // This ensures that all keys are added in order
           generateWithoutInterpretation('title');
           generateWithInterpretation('creator');
           generateWithoutInterpretation('subject');
@@ -535,6 +554,7 @@
           generateWithInterpretation('publisher');
           generateWithInterpretation('contributor');
           generateDate();
+          generateWithoutInterpretation('format');
           generateLicense();
           mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(resultingMetadata, null, 2);
         }
