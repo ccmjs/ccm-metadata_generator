@@ -22,7 +22,7 @@
 
     /**
      * default instance configuration
-     * @type {object}
+     * @type {{}}
      */
     config: {
       html: {
@@ -62,7 +62,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputCreator">
                     </div>
-                    <p class="help-block">Creator of the component. Multiple creators can be separated by commas(,).</p>
+                    <p class="help-block">An entity primarily responsible for making the component. Multiple creators can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
                     <label for="inputSubject">Subject</label>
@@ -72,7 +72,7 @@
                       </span>
                       <input type="text" class="form-control" id="inputSubject">
                     </div>
-                    <p class="help-block">Subject of the component.</p>
+                    <p class="help-block">Topic of the component.</p>
                   </div>
                   <div class="form-group">
                     <label for="inputDescription">Description</label>
@@ -83,6 +83,38 @@
                       <textarea class="form-control" rows="3" id="inputDescription"></textarea>
                     </div>
                     <p class="help-block">Description of the component.</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPublisher">Publisher</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includePublisher" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputPublisher">
+                    </div>
+                    <p class="help-block">An entity responsible for making the resource available. Multiple publishers can be separated by commas(,).</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputContributor">Contributor</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeContributor" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputContributor">
+                    </div>
+                    <p class="help-block">An entity responsible for making contributions to the component. Multiple contributors can be separated by commas(,).</p>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputDate">Date</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeDate" class="metaFieldCheckbox">
+                      </span>
+                      <input type="date" class="form-control" id="inputDate">
+                    </div>
+                    <p class="help-block">The date the component was published. Format: YYYY-MM-DD <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </button></p>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -195,33 +227,40 @@
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div class="panel panel-info">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">
-                        Settings
-                      </h3>
-                    </div>
-                    <div class="panel-body">
-                      <button class="btn btn-default" id="activateAllFields">Activate all fields</button>
-                      <button class="btn btn-default" id="deactivateAllFields">Deactivate all fields</button>
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
-                        </label>
+                  <div id="fixedRightBar" style="position: fixed; top: 20%; width: inherit; padding-right: 2%;">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">
+                          Settings
+                        </h3>
+                      </div>
+                      <div class="panel-body">
+                        <button class="btn btn-default" id="activateAllFields">Activate all fields</button>
+                        <button class="btn btn-default" id="deactivateAllFields">Deactivate all fields</button>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="panel panel-primary">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">
-                        Result
-                      </h3>
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">
+                          Result
+                        </h3>
+                      </div>
+                      <div class="panel-body">
+                        <pre><samp id="resultDisplay">{}</samp></pre>
+                      </div>
                     </div>
-                    <div class="panel-body">
-                      <pre><samp id="resultDisplay">{}</samp></pre>
-                    </div>
-                  </div>
+                   </div>
                 </div>
+              </div>
+              <div class="row top-buffer">
+                <blockquote>
+                  <p class="small">Part of the metadata is derived from <a href="http://www.dublincore.org">dublincore.org</a></p>
+                </blockquote>
               </div>
               `
             }
@@ -262,6 +301,9 @@
         "creator": false,
         "subject": false,
         "description": false,
+        "publisher": false,
+        "contributor": false,
+        "date": false,
         "license": {
           "self": false,
           "software": false,
@@ -278,6 +320,9 @@
         "creator": "",
         "subject": "",
         "description": "",
+        "publisher": "",
+        "contributor": "",
+        "date": "",
         "license": {
           "software": "",
           "content": ""
@@ -308,6 +353,23 @@
         const mainElement = this.ccm.helper.html(this.html.main, {
         });
         this.element.appendChild(mainElement);
+
+        if (window.innerWidth < 1200) {
+          mainElement.querySelector('#fixedRightBar').style = '';
+        } else {
+          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 20%; width: inherit; padding-right: 2%;';
+        }
+
+        // This event listener toggles the fixed position in the right column to be active while on large screens
+        // and disabled while on smaller screens. Bootstrap breakpoint: lg
+        const breakpointLgHit = window.matchMedia("(min-width: 1200px)");
+        breakpointLgHit.addListener(event => {
+          if (event.matches) {
+            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 20%; width: inherit; padding-right: 2%;';
+          } else {
+            mainElement.querySelector('#fixedRightBar').style = '';
+          }
+        });
 
         mainElement.querySelector('#activateAllFields').addEventListener('click', function() {
           mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
@@ -354,6 +416,9 @@
         createEventListenersForField('creator');
         createEventListenersForField('subject');
         createEventListenersForField('description');
+        createEventListenersForField('publisher');
+        createEventListenersForField('contributor');
+        createEventListenersForField('date');
 
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
@@ -429,6 +494,18 @@
           }
         }
 
+        function generateDate() {
+          if (metadataActive.date) {
+            if (/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(metadataStore.date)) {
+              resultingMetadata.date = metadataStore.date;
+            } else {
+              delete resultingMetadata.date;
+            }
+          } else {
+            delete resultingMetadata.date;
+          }
+        }
+
         function generateLicense() {
           if (metadataActive.license.self) {
             resultingMetadata.license = {};
@@ -455,6 +532,9 @@
           generateWithInterpretation('creator');
           generateWithoutInterpretation('subject');
           generateWithoutInterpretation('description');
+          generateWithInterpretation('publisher');
+          generateWithInterpretation('contributor');
+          generateDate();
           generateLicense();
           mainElement.querySelector('#resultDisplay').innerHTML = JSON.stringify(resultingMetadata, null, 2);
         }
