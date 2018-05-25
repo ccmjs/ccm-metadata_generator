@@ -28,22 +28,15 @@
       html: {
         "main": {
           "id": "main",
-          "class": "container",
+          "class": "container bootfont",
           "inner": [
             {
               "inner": `
               <div class="row">
-                <div class="col-xs-12">
-                  <h1>Metadata Generator</h1>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-12">
-                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
-                </div>
-              </div>
-              <div class="row">
                 <div class="col-lg-8">
+                  <h1>Metadata Generator</h1>
+                  <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 0.1.0</span></p>
+                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
                   <div class="form-group">
                     <label for="inputTitle">Title</label>
                     <div class="input-group">
@@ -106,7 +99,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputDate">Date <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
-                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                          <span class="info-icon">&#8505;</span>
                         </button></label>
                     <div class="input-group">
                       <span class="input-group-addon">
@@ -118,7 +111,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputFormat">Format <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, choose application/javascript. If it's applied to a configuration choose 	application/json." data-balloon-pos="right">
-                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                          <span class="info-icon">&#8505;</span>
                         </button></label>
                     <div class="input-group">
                       <span class="input-group-addon">
@@ -133,7 +126,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputIdentifier">Identifier <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If you already have a unique identifier for the resource, use that one. Otherwise please generate one." data-balloon-pos="right">
-                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                          <span class="info-icon">&#8505;</span>
                         </button></label>
                     <div class="input-group">
                       <span class="input-group-addon">
@@ -170,13 +163,42 @@
                     <div class="panel-heading">
                       <div class="checkbox no-margin">
                         <label>
+                          <input type="checkbox" id="includeLanguage" value="includeLanguage" class="metaFieldCheckbox"> 
+                          <h3 class="panel-title">
+                          Language
+                          </h3>
+                        </label>
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="All languages that the resource supports." data-balloon-pos="right">
+                          <span class="info-icon">&#8505;</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <div id="displayForAllSelectedLanguages">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <select id="languageAdd">
+                          <option disabled selected value=""> -- select an option to add -- </option>
+                          <option value="en">English</option>
+                          <option value="de">German</option>
+                          <option disabled>_________</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <div class="checkbox no-margin">
+                        <label>
                           <input type="checkbox" id="includeLicenses" value="includeLicenses" class="metaFieldCheckbox"> 
                           <h3 class="panel-title">
                           License
                           </h3>
                         </label>
                         <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Licenses are split between software and content." data-balloon-pos="right">
-                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                          <span class="info-icon">&#8505;</span>
                         </button>
                       </div>
                     </div>
@@ -277,7 +299,7 @@
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <div id="fixedRightBar" style="position: fixed; top: 20%; width: inherit; padding-right: 2%;">
+                  <div id="fixedRightBar" style="position: fixed; top: 5%; width: inherit; padding-right: 2%;">
                     <div class="panel panel-info">
                       <div class="panel-heading">
                         <h3 class="panel-title">
@@ -290,6 +312,9 @@
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
+                            <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="This also applies to multiselects like language." data-balloon-pos="right">
+                              <span class="info-icon">&#8505;</span>
+                            </button>
                           </label>
                         </div>
                       </div>
@@ -302,7 +327,7 @@
                       </div>
                       <div class="panel-body">
                         <button class="btn btn-default" id="buttonCopyResultToClipboard" style="margin-bottom: 15px;">Copy result to clipboard</button>
-                        <pre><samp id="resultDisplay">{}</samp></pre>
+                        <pre style="max-height: 250px;"><samp id="resultDisplay">{}</samp></pre>
                       </div>
                     </div>
                    </div>
@@ -359,6 +384,7 @@
         "identifier": false,
         "path": false,
         "source": false,
+        "language": false,
         "license": {
           "self": false,
           "software": false,
@@ -371,6 +397,8 @@
        * @type {{}}
        */
       let metadataStore = {
+        "metaFormat": "ccm-meta",
+        "metaVersion": "0.1.0",
         "title": "",
         "creator": "",
         "subject": "",
@@ -382,6 +410,7 @@
         "identifier": "",
         "path": "",
         "source": "",
+        "language": "",
         "license": {
           "software": "",
           "content": ""
@@ -392,8 +421,194 @@
        * Contains only the activated parts of the metadata
        * @type {{}}
        */
-      let resultingMetadata = {
+      let resultingMetadata = {};
 
+      const languages = {
+        "ab": "Abkhazian",
+        "aa": "Afar",
+        "af": "Afrikaans",
+        "ak": "Akan",
+        "sq": "Albanian",
+        "am": "Amharic",
+        "ar": "Arabic",
+        "an": "Aragonese",
+        "hy": "Armenian",
+        "as": "Assamese",
+        "av": "Avaric",
+        "ae": "Avestan",
+        "ay": "Aymara",
+        "az": "Azerbaijani",
+        "bm": "Bambara",
+        "ba": "Bashkir",
+        "eu": "Basque",
+        "be": "Belarusian",
+        "bn": "Bengali (Bangla)",
+        "bh": "Bihari",
+        "bi": "Bislama",
+        "bs": "Bosnian",
+        "br": "Breton",
+        "bg": "Bulgarian",
+        "my": "Burmese",
+        "ca": "Catalan",
+        "ch": "Chamorro",
+        "ce": "Chechen",
+        "ny": "Chichewa, Chewa, Nyanja",
+        "zh": "Chinese",
+        "cv": "Chuvash",
+        "kw": "Cornish",
+        "co": "Corsican",
+        "cr": "Cree",
+        "hr": "Croatian",
+        "cs": "Czech",
+        "da": "Danish",
+        "dv": "Divehi, Dhivehi, Maldivian",
+        "nl": "Dutch",
+        "dz": "Dzongkha",
+        "en": "English",
+        "eo": "Esperanto",
+        "et": "Estonian",
+        "ee": "Ewe",
+        "fo": "Faroese",
+        "fj": "Fijian",
+        "fi": "Finnish",
+        "fr": "French",
+        "ff": "Fula, Fulah, Pulaar, Pular",
+        "gl": "Galician",
+        "gd": "Gaelic (Scottish)",
+        "gv": "Gaelic (Manx)",
+        "ka": "Georgian",
+        "de": "German",
+        "el": "Greek",
+        "kl": "Greenlandic",
+        "gn": "Guarani",
+        "gu": "Gujarati",
+        "ht": "Haitian Creole",
+        "ha": "Hausa",
+        "he": "Hebrew",
+        "hz": "Herero",
+        "hi": "Hindi",
+        "ho": "Hiri Motu",
+        "hu": "Hungarian",
+        "is": "Icelandic",
+        "io": "Ido",
+        "ig": "Igbo",
+        "id": "Indonesian",
+        "ia": "Interlingua",
+        "ie": "Interlingue",
+        "iu": "Inuktitut",
+        "ik": "Inupiak",
+        "ga": "Irish",
+        "it": "Italian",
+        "ja": "Japanese",
+        "jv": "Javanese",
+        "kn": "Kannada",
+        "kr": "Kanuri",
+        "ks": "Kashmiri",
+        "kk": "Kazakh",
+        "km": "Khmer",
+        "ki": "Kikuyu",
+        "rw": "Kinyarwanda (Rwanda)",
+        "rn": "Kirundi",
+        "ky": "Kyrgyz",
+        "kv": "Komi",
+        "kg": "Kongo",
+        "ko": "Korean",
+        "ku": "Kurdish",
+        "kj": "Kwanyama",
+        "lo": "Lao",
+        "la": "Latin",
+        "lv": "Latvian (Lettish)",
+        "li": "Limburgish (Limburger)",
+        "ln": "Lingala",
+        "lt": "Lithuanian",
+        "lu": "Luga-Katanga",
+        "lg": "Luganda, Ganda",
+        "lb": "Luxembourgish",
+        "mk": "Macedonian",
+        "mg": "Malagasy",
+        "ms": "Malay",
+        "ml": "Malayalam",
+        "mt": "Maltese",
+        "mi": "Maori",
+        "mr": "Marathi",
+        "mh": "Marshallese",
+        "mo": "Moldavian",
+        "mn": "Mongolian",
+        "na": "Nauru",
+        "nv": "Navajo",
+        "ng": "Ndonga",
+        "nd": "Northern Ndebele",
+        "ne": "Nepali",
+        "no": "Norwegian",
+        "nb": "Norwegian bokmål",
+        "nn": "Norwegian nynorsk",
+        "ii": "Nuosu",
+        "oc": "Occitan",
+        "oj": "Ojibwe",
+        "cu": "Old Church Slavonic, Old Bulgarian",
+        "or": "Oriya",
+        "om": "Oromo (Afaan Oromo)",
+        "os": "Ossetian",
+        "pi": "Pāli",
+        "ps": "Pashto, Pushto",
+        "fa": "Persian (Farsi)",
+        "pl": "Polish",
+        "pt": "Portuguese",
+        "pa": "Punjabi (Eastern)",
+        "qu": "Quechua",
+        "rm": "Romansh",
+        "ro": "Romanian",
+        "ru": "Russian",
+        "se": "Sami",
+        "sm": "Samoan",
+        "sg": "Sango",
+        "sa": "Sanskrit",
+        "sr": "Serbian",
+        "sh": "Serbo-Croatian",
+        "st": "Sesotho",
+        "tn": "Setswana",
+        "sn": "Shona",
+        "sd": "Sindhi",
+        "si": "Sinhalese",
+        "ss": "Siswati",
+        "sk": "Slovak",
+        "sl": "Slovenian",
+        "so": "Somali",
+        "nr": "Southern Ndebele",
+        "es": "Spanish",
+        "su": "Sundanese",
+        "sw": "Swahili (Kiswahili)",
+        "sv": "Swedish",
+        "tl": "Tagalog",
+        "ty": "Tahitian",
+        "tg": "Tajik",
+        "ta": "Tamil",
+        "tt": "Tatar",
+        "te": "Telugu",
+        "th": "Thai",
+        "bo": "Tibetan",
+        "ti": "Tigrinya",
+        "to": "Tonga",
+        "ts": "Tsonga",
+        "tr": "Turkish",
+        "tk": "Turkmen",
+        "tw": "Twi",
+        "ug": "Uyghur",
+        "uk": "Ukrainian",
+        "ur": "Urdu",
+        "uz": "Uzbek",
+        "ve": "Venda",
+        "vi": "Vietnamese",
+        "vo": "Volapük",
+        "wa": "Wallon",
+        "cy": "Welsh",
+        "wo": "Wolof",
+        "fy": "Western Frisian",
+        "xh": "Xhosa",
+        "yi": "Yiddish",
+        "yo": "Yoruba",
+        "za": "Zhuang, Chuang",
+        "zu": "Zulu"
       };
 
       /**
@@ -413,10 +628,18 @@
         });
         this.element.appendChild(mainElement);
 
+        generateResult();
+
         if (window.innerWidth < 1200) {
           mainElement.querySelector('#fixedRightBar').style = '';
         } else {
-          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 20%; width: inherit; padding-right: 2%;';
+          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
+        }
+
+        if (window.innerHeight < 550) {
+          mainElement.querySelector('#fixedRightBar').style = '';
+        } else {
+          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
         }
 
         // This event listener toggles the fixed position in the right column to be active while on large screens
@@ -424,11 +647,29 @@
         const breakpointLgHit = window.matchMedia("(min-width: 1200px)");
         breakpointLgHit.addListener(event => {
           if (event.matches) {
-            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 20%; width: inherit; padding-right: 2%;';
+            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
           } else {
             mainElement.querySelector('#fixedRightBar').style = '';
           }
         });
+
+        // This event listener ensures that the right column is visible on smaller heights
+        const breakpointHeightHit = window.matchMedia("(min-height: 550px)");
+        breakpointHeightHit.addListener(event => {
+          if (event.matches) {
+            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
+          } else {
+            mainElement.querySelector('#fixedRightBar').style = '';
+          }
+        });
+
+        for (const key of Object.keys(languages)) {
+          if (key === 'de' || key === 'en') continue;
+          let newOption = document.createElement('option');
+          newOption.value = key;
+          newOption.innerHTML = languages[key];
+          mainElement.querySelector('#languageAdd').appendChild(newOption);
+        }
 
         mainElement.querySelector('#activateAllFields').addEventListener('click', function() {
           mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
@@ -496,6 +737,28 @@
           generateResult();
         });
 
+        mainElement.querySelector('#includeLanguage').addEventListener('click', function() {
+          metadataActive.language = this.checked;
+          generateResult();
+        });
+
+        mainElement.querySelector('#languageAdd').addEventListener('input', function() {
+          if (this.value !== '' && !metadataStore.language.split(', ').includes(this.value)) {
+            let newLanguageArray = metadataStore.language.split(', ');
+            if (newLanguageArray.length === 1 && newLanguageArray[0] === '') {
+              newLanguageArray[0] = this.value;
+            } else {
+              newLanguageArray.push(this.value);
+            }
+            metadataStore.language = newLanguageArray.join(', ');
+          }
+
+          displaySelectedLanguages();
+
+          this.selectedIndex = 0;
+          generateResult();
+        });
+
         mainElement.querySelector('#includeLicenses').addEventListener('change', function() {
           metadataActive.license.self = this.checked;
           generateResult();
@@ -554,6 +817,48 @@
           }
         });
 
+        function displaySelectedLanguages() {
+          // Clear current display
+          mainElement.querySelector('#displayForAllSelectedLanguages').innerHTML = '';
+
+          if (metadataStore.language === '') return;
+
+          const selectedLanguages = metadataStore.language.split(', ');
+          selectedLanguages.forEach(language => {
+            let newLanguage = document.createElement('div');
+            newLanguage.className = 'input-group';
+            newLanguage.style.marginBottom = '10px';
+            let newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.className = 'form-control';
+            newInput.value = languages[language];
+            newInput.disabled = true;
+            let newSpan = document.createElement('span');
+            newSpan.className = 'input-group-btn';
+            let newButton = document.createElement('button');
+            newButton.type = 'button';
+            newButton.className = 'btn btn-danger';
+            newButton.innerHTML = 'X';
+            newButton.dataset.language = language;
+            newButton.onclick = function() {
+              let toDelete = this.dataset.language;
+              let newLanguageArray = metadataStore.language.split(', ');
+              if (newLanguageArray.length === 1) {
+                newLanguageArray[0] = '';
+              } else {
+                newLanguageArray = newLanguageArray.filter(item => item !== toDelete);
+              }
+              metadataStore.language = newLanguageArray.join(', ');
+              displaySelectedLanguages();
+              generateResult();
+            };
+            newSpan.appendChild(newButton);
+            newLanguage.appendChild(newInput);
+            newLanguage.appendChild(newSpan);
+            mainElement.querySelector('#displayForAllSelectedLanguages').appendChild(newLanguage);
+          });
+        }
+
         function generateWithoutInterpretation(key) {
           if (metadataActive[key]) {
             resultingMetadata[key] = metadataStore[key];
@@ -606,6 +911,8 @@
          */
         function generateResult() {
           resultingMetadata = {}; // This ensures that all keys are added in order
+          resultingMetadata.metaFormat = metadataStore.metaFormat;
+          resultingMetadata.metaVersion = metadataStore.metaVersion;
           generateWithoutInterpretation('title');
           generateWithInterpretation('creator');
           generateWithoutInterpretation('subject');
@@ -617,6 +924,7 @@
           generateWithoutInterpretation('identifier');
           generateWithoutInterpretation('path');
           generateWithoutInterpretation('source');
+          generateWithInterpretation('language');
           generateLicense();
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
@@ -666,7 +974,7 @@
             document.getSelection().removeAllRanges();    // Unselect everything on the HTML document
             document.getSelection().addRange(selected);   // Restore the original selection
           }
-        };
+        }
 
         if ( callback ) callback();
       };
