@@ -220,62 +220,62 @@
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="software_license_choose" id="software_license_choose_1" value="﻿AGPL"> ﻿GNU Affero General Public License (﻿AGPL) 
+                                 <input type="radio" name="software_license_choose" id="software_license_choose_1" value="AGPL"> ﻿GNU Affero General Public License (﻿AGPL) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_2" value="﻿GPL"> ﻿GNU General Public License (﻿GPL) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_2" value="GPL"> ﻿GNU General Public License (﻿GPL) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_3" value="﻿LGPL"> ﻿GNU Lesser General Public License (﻿LGPL) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_3" value="LGPL"> ﻿GNU Lesser General Public License (﻿LGPL) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_4" value="﻿MPL"> ﻿﻿Mozilla Public License (MPL) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_4" value="MPL"> ﻿﻿Mozilla Public License (MPL) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_5" value="﻿Apache"> ﻿﻿Apache License (Apache) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_5" value="Apache"> ﻿﻿Apache License (Apache) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_6" value="﻿MIT"> ﻿﻿MIT License (MIT) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_6" value="MIT"> ﻿﻿MIT License (MIT) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_7" value="﻿Unlicense"> ﻿The Unlicense (﻿Unlicense) 
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_7" value="Unlicense"> ﻿The Unlicense (﻿Unlicense) 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                  <input type="radio" id="software_license_choose_8" name="software_license_choose" value="other">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_8" value="other">
                                   Other: 
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
-                              <input placeholder="Other license" type="text" class="form-control" id="other_software_license" data-rule-required="true">
+                              <input placeholder="Other license" type="text" class="form-control" id="other_software_license">
                             </div>
                           </form>
                         </div>
@@ -292,7 +292,62 @@
                           </div>
                         </div>
                         <div class="panel-body">
-                          Content
+                          <label class="control-label">Choose a content license</label>
+                          <form class="form-inline" role="form">
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_1" value="﻿CC-BY-4.0"> ﻿﻿Creative Commons Attribution 4.0 International (CC-BY-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_2" value="﻿﻿CC-BY-SA-4.0"> ﻿﻿﻿Creative Commons Attribution Share Alike 4.0 International (﻿CC-BY-SA-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_3" value="﻿﻿﻿CC-BY-ND-4.0"> ﻿﻿﻿﻿Creative Commons Attribution No Derivatives 4.0 International (﻿CC-BY-ND-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_4" value="﻿﻿﻿﻿CC-BY-NC-4.0"> ﻿Creative Commons Attribution Non Commercial 4.0 International (﻿CC-BY-NC-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_5" value="﻿﻿﻿﻿﻿CC-BY-NC-SA-4.0"> ﻿Creative Commons Attribution Non Commercial Share Alike 4.0 International (﻿CC-BY-NC-SA-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_6" value="﻿﻿﻿﻿﻿﻿CC-BY-NC-ND-4.0"> ﻿Creative Commons Attribution Non Commercial No Derivatives 4.0 International﻿ (﻿CC-BY-NC-ND-4.0)
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="content_license_choose" id="content_license_choose_7" value="other">
+                                  Other: 
+                                </label>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <input placeholder="Other license" type="text" class="form-control" id="other_content_license">
+                            </div>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -776,28 +831,27 @@
 
         Array.from(mainElement.querySelectorAll('input[name=software_license_choose]')).forEach(radio => {
           radio.addEventListener('change', function () {
-            metadataStore.license.software = this.value;
             switch (this.value) {
-              case '﻿AGPL':
-                metadataStore.license.software = '﻿AGPL-3.0-only';
+              case 'AGPL':
+                metadataStore.license.software = 'AGPL-3.0-only';
                 break;
-              case '﻿GPL':
-                metadataStore.license.software = '﻿GPL-3.0-only';
+              case 'GPL':
+                metadataStore.license.software = 'GPL-3.0-only';
                 break;
-              case '﻿LGPL':
-                metadataStore.license.software = '﻿LGPL-3.0-only';
+              case 'LGPL':
+                metadataStore.license.software = 'LGPL-3.0-only';
                 break;
-              case '﻿MPL':
-                metadataStore.license.software = '﻿MPL-2.0';
+              case 'MPL':
+                metadataStore.license.software = 'MPL-2.0';
                 break;
-              case '﻿Apache':
-                metadataStore.license.software = '﻿Apache-2.0';
+              case 'Apache':
+                metadataStore.license.software = 'Apache-2.0';
                 break;
-              case '﻿MIT':
-                metadataStore.license.software = '﻿MIT';
+              case 'MIT':
+                metadataStore.license.software = 'MIT';
                 break;
-              case '﻿Unlicense':
-                metadataStore.license.software = '﻿Unlicense';
+              case 'Unlicense':
+                metadataStore.license.software = 'Unlicense';
                 break;
               case 'other':
                 metadataStore.license.software = mainElement.querySelector('#other_software_license').value;
@@ -813,6 +867,24 @@
         mainElement.querySelector('#other_software_license').addEventListener('input', function() {
           if (mainElement.querySelector('#software_license_choose_8').checked) {
             metadataStore.license.software = this.value;
+            generateResult();
+          }
+        });
+
+        Array.from(mainElement.querySelectorAll('input[name=content_license_choose]')).forEach(radio => {
+          radio.addEventListener('change', function () {
+            if (this.value === 'other') {
+              metadataStore.license.content = mainElement.querySelector('#other_content_license').value;
+            } else {
+              metadataStore.license.content = this.value;
+            }
+            generateResult();
+          });
+        });
+
+        mainElement.querySelector('#other_content_license').addEventListener('input', function() {
+          if (mainElement.querySelector('#content_license_choose_7').checked) {
+            metadataStore.license.content = this.value;
             generateResult();
           }
         });
