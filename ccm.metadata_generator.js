@@ -1,5 +1,5 @@
 /**
- * @overview ccm metadata generator to create metadata of components and configs
+ * @overview ccm metadata generator to create metadata for components and configurations
  * @author Leon Eck <leon.eck@smail.inf.h-brs.de> 2018
  * @license The MIT License (MIT)
  */
