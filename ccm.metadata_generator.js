@@ -150,6 +150,18 @@
                     <p class="help-block">URL where the resource can be found.</p>
                   </div>
                   <div class="form-group">
+                    <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify an URL to a configuration file here." data-balloon-pos="right">
+                          <span class="info-icon">&#8505;</span>
+                        </button></label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeData" class="metaFieldCheckbox">
+                      </span>
+                      <input type="url" class="form-control" id="inputData">
+                    </div>
+                    <p class="help-block">URL to additional data for the resource.</p>
+                  </div>
+                  <div class="form-group">
                     <label for="inputSource">Source</label>
                     <div class="input-group">
                       <span class="input-group-addon">
@@ -438,6 +450,7 @@
         "format": false,
         "identifier": false,
         "path": false,
+        "data": false,
         "source": false,
         "language": false,
         "license": {
@@ -464,6 +477,7 @@
         "format": "application/javascript",
         "identifier": "",
         "path": "",
+        "data": "",
         "source": "",
         "language": "",
         "license": {
@@ -781,6 +795,7 @@
         createEventListenersForField('format');
         createEventListenersForField('identifier');
         createEventListenersForField('path');
+        createEventListenersForField('data');
         createEventListenersForField('source');
 
         mainElement.querySelector('#buttonGenerateIdentifier').addEventListener('click', function() {
@@ -995,6 +1010,7 @@
           generateWithoutInterpretation('format');
           generateWithoutInterpretation('identifier');
           generateWithoutInterpretation('path');
+          generateWithoutInterpretation('data');
           generateWithoutInterpretation('source');
           generateWithInterpretation('language');
           generateLicense();
