@@ -229,6 +229,13 @@
                         <div class="panel-body">
                           <label class="control-label">Choose a software license</label>
                           <form class="form-inline" role="form">
+                            <div class="form-group" style="display: block">
+                              <div class="radio">
+                                <label class="radio-inline control-label">
+                                  <input type="radio" name="software_license_choose" id="software_license_choose_6" value="MIT"> ﻿﻿MIT License (MIT) <span class="label label-success">Recommended</span>
+                                </label>
+                              </div>
+                            </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
@@ -261,13 +268,6 @@
                               <div class="radio">
                                 <label class="radio-inline control-label">
                                   <input type="radio" name="software_license_choose" id="software_license_choose_5" value="Apache"> ﻿﻿Apache License (Apache) 
-                                </label>
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              <div class="radio">
-                                <label class="radio-inline control-label">
-                                  <input type="radio" name="software_license_choose" id="software_license_choose_6" value="MIT"> ﻿﻿MIT License (MIT) 
                                 </label>
                               </div>
                             </div>
@@ -309,7 +309,7 @@
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_1" value="﻿CC-BY-4.0"> ﻿﻿Creative Commons Attribution 4.0 International (CC-BY-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_1" value="﻿CC-BY-4.0"> ﻿﻿Creative Commons Attribution 4.0 International (CC-BY-4.0) <span class="label label-success">Recommended</span>
                                 </label>
                               </div>
                             </div>
