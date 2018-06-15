@@ -105,7 +105,7 @@
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeDate" class="metaFieldCheckbox">
                       </span>
-                      <input type="date" class="form-control" id="inputDate">
+                      <input type="date" class="form-control" id="inputDate" value="${new Date().toISOString().split('T')[0]}">
                     </div>
                     <p class="help-block">The date the resource was published. Format: YYYY-MM-DD</p>
                   </div>
@@ -364,6 +364,28 @@
                       </div>
                     </div>
                   </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <div class="checkbox no-margin">
+                        <label>
+                          <input type="checkbox" id="includeTags" value="includeTags" class="metaFieldCheckbox"> 
+                          <h3 class="panel-title">
+                          Tags
+                          </h3>
+                        </label>
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Add tags that describe the component." data-balloon-pos="right">
+                          <span class="info-icon">&#8505;</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <select id="inputTags" multiple placeholder="Select tags or add your own...">
+                        <option value="HTML">HTML</option>
+                        <option value="CSS">CSS</option>
+                        <option value="JavaScript">JavaScript</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-lg-4">
                   <div id="fixedRightBar" style="position: fixed; top: 5%; width: inherit; padding-right: 2%;">
@@ -410,8 +432,9 @@
           ]
         }
       },
-      css: [ 'ccm.load', 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/default.css' ],
+      css: [ 'ccm.load', 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/default.css', 'css/selectize.default.min.css' ],
       //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
+      js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false // Set to true if embedded on a site that already has a bootstrap container div
     },
 
@@ -457,7 +480,8 @@
           "self": false,
           "software": false,
           "content": false
-        }
+        },
+        "tags": false
       };
 
       /**
@@ -473,7 +497,7 @@
         "description": "",
         "publisher": "",
         "contributor": "",
-        "date": "",
+        "date": new Date().toISOString().split('T')[0],
         "format": "application/javascript",
         "identifier": "",
         "path": "",
@@ -483,7 +507,8 @@
         "license": {
           "software": "",
           "content": ""
-        }
+        },
+        "tags": ""
       };
 
       /**
@@ -697,6 +722,16 @@
         });
         this.element.appendChild(mainElement);
 
+        /**
+         * Initialize the tag input
+         */
+        const tagSelector = $(mainElement.querySelector('#inputTags')).selectize({
+          delimiter: ',',
+          persist: false,
+          create: true,
+          plugins: ['remove_button']
+        })[0].selectize;
+
         generateResult();
 
         if (window.innerWidth < 1200) {
@@ -807,7 +842,7 @@
           generateResult();
         });
 
-        mainElement.querySelector('#includeLanguage').addEventListener('click', function() {
+        mainElement.querySelector('#includeLanguage').addEventListener('change', function() {
           metadataActive.language = this.checked;
           generateResult();
         });
@@ -902,6 +937,16 @@
             metadataStore.license.content = this.value;
             generateResult();
           }
+        });
+
+        mainElement.querySelector('#includeTags').addEventListener('change', function() {
+          metadataActive.tags = this.checked;
+          generateResult();
+        });
+
+        tagSelector.on('change', () => {
+          metadataStore.tags = tagSelector.getValue().join(', ');
+          generateResult();
         });
 
         function displaySelectedLanguages() {
@@ -1014,6 +1059,7 @@
           generateWithoutInterpretation('source');
           generateWithInterpretation('language');
           generateLicense();
+          generateWithInterpretation('tags');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
           return resultingMetadataString;
