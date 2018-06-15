@@ -379,10 +379,7 @@
                       </div>
                     </div>
                     <div class="panel-body">
-                      <select id="inputTags" multiple placeholder="Select tags or add your own...">
-                        <option value="HTML">HTML</option>
-                        <option value="CSS">CSS</option>
-                        <option value="JavaScript">JavaScript</option>
+                      <select id="inputTags" multiple>
                       </select>
                     </div>
                   </div>
@@ -432,10 +429,11 @@
           ]
         }
       },
-      css: [ 'ccm.load', 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/default.css', 'css/selectize.default.min.css' ],
+      css: [ 'ccm.load', [ 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/selectize.default.min.css', 'css/default.css' ] ],
       //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
-      no_bootstrap_container: false // Set to true if embedded on a site that already has a bootstrap container div
+      no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
+      tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Specify the tags the user can choose from
     },
 
     /**
@@ -725,11 +723,24 @@
         /**
          * Initialize the tag input
          */
+        let tagOptions = [];
+        self.tags.forEach(tag => {
+          tagOptions.push({
+            value: tag
+          });
+        });
+
         const tagSelector = $(mainElement.querySelector('#inputTags')).selectize({
           delimiter: ',',
           persist: false,
           create: true,
-          plugins: ['remove_button']
+          plugins: ['remove_button'],
+          maxItems: null,
+          placeholder: 'Select tags or add your own...',
+          valueField: 'value',
+          labelField: 'value',
+          searchField: 'value',
+          options: tagOptions
         })[0].selectize;
 
         generateResult();
