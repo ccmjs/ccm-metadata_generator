@@ -38,7 +38,7 @@
                   <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 0.1.0</span></p>
                   <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
                   <div class="form-group">
-                    <label for="inputTitle">Title</label>
+                    <label for="inputTitle">Title</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: Hello World</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeTitle" class="metaFieldCheckbox">
@@ -48,7 +48,7 @@
                     <p class="help-block">Title of the resource.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputVersion">Version</label>
+                    <label for="inputVersion">Version</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: 1.0.0</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeVersion" class="metaFieldCheckbox">
@@ -58,7 +58,7 @@
                     <p class="help-block">Version number of the resource. Please use <a href="https://semver.org/" target="_blank">Semantic Versioning</a></p>
                   </div>
                   <div class="form-group">
-                    <label for="inputCreator">Creator</label>
+                    <label for="inputCreator">Creator</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: John Doe</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeCreator" class="metaFieldCheckbox">
@@ -68,7 +68,7 @@
                     <p class="help-block">An entity primarily responsible for making the resource. Multiple creators can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputSubject">Subject</label>
+                    <label for="inputSubject">Subject</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: Programming</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeSubject" class="metaFieldCheckbox">
@@ -78,7 +78,7 @@
                     <p class="help-block">Topic of the resource.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputDescription">Description</label>
+                    <label for="inputDescription">Description</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: This resource is about...</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeDescription" class="metaFieldCheckbox">
@@ -88,7 +88,7 @@
                     <p class="help-block">Description of the resource.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputPublisher">Publisher</label>
+                    <label for="inputPublisher">Publisher</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: John Doe</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includePublisher" class="metaFieldCheckbox">
@@ -98,7 +98,7 @@
                     <p class="help-block">An entity responsible for making the resource available. Multiple publishers can be separated by commas(,).</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputContributor">Contributor</label>
+                    <label for="inputContributor">Contributor</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: John Doe</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeContributor" class="metaFieldCheckbox">
@@ -110,7 +110,7 @@
                   <div class="form-group">
                     <label for="inputDate">Date <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If your browser provides a datepicker please use it. Otherwise stick to the format YYYY-MM-DD" data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
-                        </button></label>
+                        </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: ${new Date().toISOString().split('T')[0]}</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeDate" class="metaFieldCheckbox">
@@ -137,7 +137,7 @@
                   <div class="form-group">
                     <label for="inputIdentifier">Identifier <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If you already have a unique identifier for the resource, use that one. Otherwise please generate one." data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
-                        </button></label>
+                        </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: da3581d3-7a46-4b87-882c-935c371c3078</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeIdentifier" class="metaFieldCheckbox">
@@ -150,7 +150,7 @@
                     <p class="help-block">An unambiguous reference to the resource within a given context.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputPath">Path</label>
+                    <label for="inputPath">Path</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/ccm.hello_world.js</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includePath" class="metaFieldCheckbox">
@@ -162,7 +162,7 @@
                   <div class="form-group">
                     <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify an URL to a configuration file here." data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
-                        </button></label>
+                        </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/config.js</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeData" class="metaFieldCheckbox">
@@ -172,7 +172,7 @@
                     <p class="help-block">URL to additional data for the resource.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputSource">Source</label>
+                    <label for="inputSource">Source</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/ccm.source.js</span>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <input type="checkbox" id="includeSource" class="metaFieldCheckbox">
@@ -760,6 +760,16 @@
         const mainElement = this.ccm.helper.html(this.html.main, {
         });
         this.element.appendChild(mainElement);
+
+        /**
+         * Make example text selectable with one click
+         */
+        mainElement.querySelectorAll('.example-text').forEach(element => {
+          element.addEventListener('click', function (event) {
+            event.preventDefault();
+            copyToClipboard(this.innerHTML.replace('Example: ', ''));
+          })
+        });
 
         /**
          * Initialize the language input
