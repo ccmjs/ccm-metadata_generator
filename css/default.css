@@ -145,3 +145,17 @@
   line-height: 0px;
   font-size: 18px;
 }
+
+.example-text {
+  color: #1e4456bf;
+  float: right;
+}
+
+.example-text:hover {
+  cursor: pointer;
+}
+
+/* https://github.com/selectize/selectize.js/issues/851 */
+.selectize-input:not(.has-items) input {
+  width: 100% !important;
+}
