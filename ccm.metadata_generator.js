@@ -48,6 +48,16 @@
                     <p class="help-block">Title of the resource.</p>
                   </div>
                   <div class="form-group">
+                    <label for="inputVersion">Version</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="includeVersion" class="metaFieldCheckbox">
+                      </span>
+                      <input type="text" class="form-control" id="inputVersion">
+                    </div>
+                    <p class="help-block">Version number of the resource. Please use <a href="https://semver.org/" target="_blank">Semantic Versioning</a></p>
+                  </div>
+                  <div class="form-group">
                     <label for="inputCreator">Creator</label>
                     <div class="input-group">
                       <span class="input-group-addon">
@@ -462,6 +472,7 @@
        */
       let metadataActive = {
         "title": false,
+        "version": false,
         "creator": false,
         "subject": false,
         "description": false,
@@ -490,6 +501,7 @@
         "metaFormat": "ccm-meta",
         "metaVersion": "0.1.0",
         "title": "",
+        "version": "",
         "creator": "",
         "subject": "",
         "description": "",
@@ -832,6 +844,7 @@
         }
 
         createEventListenersForField('title');
+        createEventListenersForField('version');
         createEventListenersForField('creator');
         createEventListenersForField('subject');
         createEventListenersForField('description');
@@ -1057,6 +1070,7 @@
           resultingMetadata.metaFormat = metadataStore.metaFormat;
           resultingMetadata.metaVersion = metadataStore.metaVersion;
           generateWithoutInterpretation('title');
+          generateWithoutInterpretation('version');
           generateWithInterpretation('creator');
           generateWithoutInterpretation('subject');
           generateWithoutInterpretation('description');
