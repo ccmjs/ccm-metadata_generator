@@ -190,24 +190,13 @@
                           Language
                           </h3>
                         </label>
-                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="All languages that the resource supports." data-balloon-pos="right">
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Select all languages that the resource supports." data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
                         </button>
                       </div>
                     </div>
                     <div class="panel-body">
-                      <div class="form-group">
-                        <div id="displayForAllSelectedLanguages">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <select id="languageAdd">
-                          <option disabled selected value=""> -- select an option to add -- </option>
-                          <option value="en">English</option>
-                          <option value="de">German</option>
-                          <option disabled>_________</option>
-                        </select>
-                      </div>
+                      <select id="inputLanguage" multiple></select>
                     </div>
                   </div>
                   <div class="panel panel-default">
@@ -389,8 +378,7 @@
                       </div>
                     </div>
                     <div class="panel-body">
-                      <select id="inputTags" multiple>
-                      </select>
+                      <select id="inputTags" multiple></select>
                     </div>
                   </div>
                 </div>
@@ -733,6 +721,30 @@
         this.element.appendChild(mainElement);
 
         /**
+         * Initialize the language input
+         */
+        let languageOptions = [];
+        Object.keys(languages).forEach(key => {
+          languageOptions.push({
+            value: key,
+            label: languages[key]
+          });
+        });
+
+        const languageSelector = $(mainElement.querySelector('#inputLanguage')).selectize({
+          delimiter: ',',
+          persist: false,
+          create: false,
+          plugins: ['remove_button'],
+          maxItems: null,
+          placeholder: 'Select languages...',
+          valueField: 'value',
+          labelField: 'label',
+          searchField: 'label',
+          options: languageOptions
+        })[0].selectize;
+
+        /**
          * Initialize the tag input
          */
         let tagOptions = [];
@@ -789,14 +801,6 @@
             mainElement.querySelector('#fixedRightBar').style = '';
           }
         });
-
-        for (const key of Object.keys(languages)) {
-          if (key === 'de' || key === 'en') continue;
-          let newOption = document.createElement('option');
-          newOption.value = key;
-          newOption.innerHTML = languages[key];
-          mainElement.querySelector('#languageAdd').appendChild(newOption);
-        }
 
         mainElement.querySelector('#activateAllFields').addEventListener('click', function() {
           mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
@@ -871,20 +875,8 @@
           generateResult();
         });
 
-        mainElement.querySelector('#languageAdd').addEventListener('input', function() {
-          if (this.value !== '' && !metadataStore.language.split(', ').includes(this.value)) {
-            let newLanguageArray = metadataStore.language.split(', ');
-            if (newLanguageArray.length === 1 && newLanguageArray[0] === '') {
-              newLanguageArray[0] = this.value;
-            } else {
-              newLanguageArray.push(this.value);
-            }
-            metadataStore.language = newLanguageArray.join(', ');
-          }
-
-          displaySelectedLanguages();
-
-          this.selectedIndex = 0;
+        languageSelector.on('change', () => {
+          metadataStore.language = languageSelector.getValue().join(', ');
           generateResult();
         });
 
@@ -972,48 +964,6 @@
           metadataStore.tags = tagSelector.getValue().join(', ');
           generateResult();
         });
-
-        function displaySelectedLanguages() {
-          // Clear current display
-          mainElement.querySelector('#displayForAllSelectedLanguages').innerHTML = '';
-
-          if (metadataStore.language === '') return;
-
-          const selectedLanguages = metadataStore.language.split(', ');
-          selectedLanguages.forEach(language => {
-            let newLanguage = document.createElement('div');
-            newLanguage.className = 'input-group';
-            newLanguage.style.marginBottom = '10px';
-            let newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.className = 'form-control';
-            newInput.value = languages[language];
-            newInput.disabled = true;
-            let newSpan = document.createElement('span');
-            newSpan.className = 'input-group-btn';
-            let newButton = document.createElement('button');
-            newButton.type = 'button';
-            newButton.className = 'btn btn-danger';
-            newButton.innerHTML = 'X';
-            newButton.dataset.language = language;
-            newButton.onclick = function() {
-              let toDelete = this.dataset.language;
-              let newLanguageArray = metadataStore.language.split(', ');
-              if (newLanguageArray.length === 1) {
-                newLanguageArray[0] = '';
-              } else {
-                newLanguageArray = newLanguageArray.filter(item => item !== toDelete);
-              }
-              metadataStore.language = newLanguageArray.join(', ');
-              displaySelectedLanguages();
-              generateResult();
-            };
-            newSpan.appendChild(newButton);
-            newLanguage.appendChild(newInput);
-            newLanguage.appendChild(newSpan);
-            mainElement.querySelector('#displayForAllSelectedLanguages').appendChild(newLanguage);
-          });
-        }
 
         function generateWithoutInterpretation(key) {
           if (metadataActive[key]) {
