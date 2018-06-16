@@ -372,13 +372,31 @@
                           Tags
                           </h3>
                         </label>
-                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Add tags that describe the component." data-balloon-pos="right">
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Add tags that describe the resource." data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
                         </button>
                       </div>
                     </div>
                     <div class="panel-body">
                       <select id="inputTags" multiple></select>
+                    </div>
+                  </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <div class="checkbox no-margin">
+                        <label>
+                          <input type="checkbox" id="includeCategory" value="includeCategory" class="metaFieldCheckbox"> 
+                          <h3 class="panel-title">
+                          Category
+                          </h3>
+                        </label>
+                        <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="Specify a category that best suits the resource." data-balloon-pos="right">
+                          <span class="info-icon">&#8505;</span>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <select id="inputCategory"></select>
                     </div>
                   </div>
                 </div>
@@ -431,7 +449,8 @@
       //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
-      tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Specify the tags the user can choose from
+      tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Tags the user can choose from
+      categories: ['Art', 'Computer Science', 'Economy', 'History'], // Categories the user can choose from
     },
 
     /**
@@ -478,7 +497,8 @@
           "software": false,
           "content": false
         },
-        "tags": false
+        "tags": false,
+        "category": false
       };
 
       /**
@@ -506,7 +526,8 @@
           "software": "",
           "content": ""
         },
-        "tags": ""
+        "tags": "",
+        "category": ""
       };
 
       /**
@@ -767,6 +788,27 @@
           options: tagOptions
         })[0].selectize;
 
+        /**
+         * Initialize the category input
+         */
+        let categoryOptions = [];
+        self.categories.forEach(category => {
+          categoryOptions.push({
+            value: category
+          });
+        });
+
+        const categorySelector = $(mainElement.querySelector('#inputCategory')).selectize({
+          persist: false,
+          create: false,
+          maxItems: 1,
+          placeholder: 'Select a category that suits the resource',
+          valueField: 'value',
+          labelField: 'value',
+          searchField: 'value',
+          options: categoryOptions
+        })[0].selectize;
+
         generateResult();
 
         if (window.innerWidth < 1200) {
@@ -965,6 +1007,16 @@
           generateResult();
         });
 
+        mainElement.querySelector('#includeCategory').addEventListener('change', function() {
+          metadataActive.category = this.checked;
+          generateResult();
+        });
+
+        categorySelector.on('change', () => {
+          metadataStore.category = categorySelector.getValue();
+          generateResult();
+        });
+
         function generateWithoutInterpretation(key) {
           if (metadataActive[key]) {
             resultingMetadata[key] = metadataStore[key];
@@ -1035,6 +1087,7 @@
           generateWithInterpretation('language');
           generateLicense();
           generateWithInterpretation('tags');
+          generateWithoutInterpretation('category');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
           return resultingMetadataString;
