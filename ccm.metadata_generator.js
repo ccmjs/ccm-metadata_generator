@@ -399,6 +399,24 @@
                       <select id="inputCategory"></select>
                     </div>
                   </div>
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <div class="checkbox no-margin">
+                        <label>
+                          <input type="checkbox" id="includeBloomTaxonomy" value="includeBloomTaxonomy" class="metaFieldCheckbox"> 
+                          <h3 class="panel-title">
+                          Bloom’s Taxonomy
+                          </h3>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <select id="inputBloomTaxonomy" multiple></select>
+                      <p class="help-block no-margin">
+                        The revised form of Bloom’s Taxonomy is used. You can find out more about it <a href="https://cft.vanderbilt.edu/guides-sub-pages/blooms-taxonomy/" target="_blank">here</a>, <a href="https://tips.uark.edu/using-blooms-taxonomy/" target="_blank">here</a> and <a href="http://sciencesite.16mb.com/Bloom's%20Taxonomy%20Original%20and%20Revised%20by%20Mary%20Forehand.pdf" target="_blank">here</a>.
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div class="col-lg-4">
                   <div id="fixedRightBar" style="position: fixed; top: 5%; width: inherit; padding-right: 2%;">
@@ -498,7 +516,8 @@
           "content": false
         },
         "tags": false,
-        "category": false
+        "category": false,
+        "bloomTaxonomy": false
       };
 
       /**
@@ -527,7 +546,8 @@
           "content": ""
         },
         "tags": "",
-        "category": ""
+        "category": "",
+        "bloomTaxonomy": ""
       };
 
       /**
@@ -809,6 +829,43 @@
           options: categoryOptions
         })[0].selectize;
 
+        /**
+         * Initialize the bloom taxonomy input
+         */
+        let bloomTaxonomyOptions = [
+          {
+            value: 'Remember'
+          },
+          {
+            value: 'Understand'
+          },
+          {
+            value: 'Apply'
+          },
+          {
+            value: 'Analyze'
+          },
+          {
+            value: 'Evaluate'
+          },
+          {
+            value: 'Create'
+          }
+        ];
+
+        const bloomTaxonomySelector = $(mainElement.querySelector('#inputBloomTaxonomy')).selectize({
+          delimiter: ',',
+          persist: false,
+          create: false,
+          plugins: ['remove_button'],
+          maxItems: null,
+          placeholder: 'Select all options that apply',
+          valueField: 'value',
+          labelField: 'value',
+          searchField: 'value',
+          options: bloomTaxonomyOptions
+        })[0].selectize;
+
         generateResult();
 
         if (window.innerWidth < 1200) {
@@ -1017,6 +1074,16 @@
           generateResult();
         });
 
+        mainElement.querySelector('#includeBloomTaxonomy').addEventListener('change', function() {
+          metadataActive.bloomTaxonomy = this.checked;
+          generateResult();
+        });
+
+        bloomTaxonomySelector.on('change', () => {
+          metadataStore.bloomTaxonomy = bloomTaxonomySelector.getValue().join(', ');
+          generateResult();
+        });
+
         function generateWithoutInterpretation(key) {
           if (metadataActive[key]) {
             resultingMetadata[key] = metadataStore[key];
@@ -1088,6 +1155,7 @@
           generateLicense();
           generateWithInterpretation('tags');
           generateWithoutInterpretation('category');
+          generateWithInterpretation('bloomTaxonomy');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
           return resultingMetadataString;
