@@ -160,7 +160,7 @@
                     <p class="help-block">URL where the resource can be found.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify an URL to a configuration file here." data-balloon-pos="right">
+                    <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify a URL to a configuration file here. Likewise if the metadata is applied to a configuration a URL to the component could be specified." data-balloon-pos="right">
                           <span class="info-icon">&#8505;</span>
                         </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/config.js</span>
                     <div class="input-group">
