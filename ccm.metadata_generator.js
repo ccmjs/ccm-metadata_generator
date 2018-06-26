@@ -159,17 +159,31 @@
                     </div>
                     <p class="help-block">URL where the resource can be found.</p>
                   </div>
-                  <div class="form-group">
-                    <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify a URL to a configuration file here. Likewise if the metadata is applied to a configuration a URL to the component could be specified." data-balloon-pos="right">
-                          <span class="info-icon">&#8505;</span>
-                        </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/config.js</span>
-                    <div class="input-group">
-                      <span class="input-group-addon">
-                        <input type="checkbox" id="includeData" class="metaFieldCheckbox">
-                      </span>
-                      <input type="url" class="form-control" id="inputData">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <div class="form-group">
+                        <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify a URL to a configuration file here. Likewise if the metadata is applied to a configuration a URL to the component could be specified." data-balloon-pos="right">
+                              <span class="info-icon">&#8505;</span>
+                            </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/configs.js</span>
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <input type="checkbox" id="includeData" class="metaFieldCheckbox">
+                          </span>
+                          <input type="url" class="form-control" id="inputData">
+                        </div>
+                        <p class="help-block">URL to additional data for the resource.</p>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputData-key">Data-Key</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: demo</span>
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <input type="checkbox" id="includeData-key" class="metaFieldCheckbox">
+                          </span>
+                          <input class="form-control" id="inputData-key">
+                        </div>
+                        <p class="help-block">A key that defines where the data is found inside the resource that is mentioned in the data field.</p>
+                      </div>
                     </div>
-                    <p class="help-block">URL to additional data for the resource.</p>
                   </div>
                   <div class="form-group">
                     <label for="inputSource">Source</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/ccm.source.js</span>
@@ -508,6 +522,7 @@
         "identifier": false,
         "path": false,
         "data": false,
+        "data-key": false,
         "source": false,
         "language": false,
         "license": {
@@ -539,6 +554,7 @@
         "identifier": "",
         "path": "",
         "data": "",
+        "data-key": "",
         "source": "",
         "language": "",
         "license": {
@@ -968,6 +984,7 @@
         createEventListenersForField('identifier');
         createEventListenersForField('path');
         createEventListenersForField('data');
+        createEventListenersForField('data-key');
         createEventListenersForField('source');
 
         mainElement.querySelector('#buttonGenerateIdentifier').addEventListener('click', function() {
@@ -1160,6 +1177,7 @@
           generateWithoutInterpretation('identifier');
           generateWithoutInterpretation('path');
           generateWithoutInterpretation('data');
+          generateWithoutInterpretation('data-key');
           generateWithoutInterpretation('source');
           generateWithInterpretation('language');
           generateLicense();
