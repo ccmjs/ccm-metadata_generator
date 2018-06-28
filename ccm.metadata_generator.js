@@ -33,10 +33,22 @@
             {
               "inner": `
               <div class="row">
-                <div class="col-lg-8">
+                <div class="col-md-8">
                   <h1>Metadata Generator</h1>
                   <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 1.0.0</span></p>
-                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
+                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the <a href="javascript: document.body.scrollIntoView(false);">Result</a> panel at the bottom of the page.</p>
+                </div>
+                <div class="col-md-4">
+                  <div class="panel panel-default top-buffer">
+                    <div class="panel-body" style="display: flex; justify-content: space-between;">
+                      <button class="btn btn-default" id="activateAllFields">Activate all fields</button>
+                      <button class="btn btn-default" id="deactivateAllFields">Deactivate all fields</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12"> 
                   <div class="form-group">
                     <label for="inputTitle">Title</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: Hello World</span>
                     <div class="input-group">
@@ -244,7 +256,7 @@
                         <div class="panel-body">
                           <label class="control-label">Choose a software license</label>
                           <form class="form-inline" role="form">
-                            <div class="form-group" style="display: block">
+                            <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
                                   <input type="radio" name="software_license_choose" id="software_license_choose_6" value="MIT"> ﻿﻿MIT License (MIT) <span class="label label-success">Recommended</span>
@@ -434,18 +446,19 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4">
-                  <div id="fixedRightBar" style="position: fixed; top: 5%; width: inherit; padding-right: 2%;">
-                    <div class="panel panel-info">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">
-                          Settings
-                        </h3>
-                      </div>
-                      <div class="panel-body">
-                        <button class="btn btn-default" id="activateAllFields">Activate all fields</button>
-                        <button class="btn btn-default" id="deactivateAllFields">Deactivate all fields</button>
-                        <div class="checkbox">
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="panel panel-primary">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        Result
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                      <form class="form-inline" style="margin-bottom: 15px;">
+                        <button class="btn btn-default" id="buttonCopyResultToClipboard">Copy result to clipboard</button>
+                        <div class="checkbox" style="margin-left: 25px;">
                           <label>
                             <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
                             <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="This also applies to multiselects like language." data-balloon-pos="right">
@@ -453,20 +466,11 @@
                             </button>
                           </label>
                         </div>
-                      </div>
+                        <button class="btn btn-default pull-right" onclick="event.preventDefault(); document.body.scrollIntoView(true);">Go to top</button>
+                      </form>
+                      <pre><samp id="resultDisplay">{}</samp></pre>
                     </div>
-                    <div class="panel panel-primary">
-                      <div class="panel-heading">
-                        <h3 class="panel-title">
-                          Result
-                        </h3>
-                      </div>
-                      <div class="panel-body">
-                        <button class="btn btn-default" id="buttonCopyResultToClipboard" style="margin-bottom: 15px;">Copy result to clipboard</button>
-                        <pre style="max-height: 250px;"><samp id="resultDisplay">{}</samp></pre>
-                      </div>
-                    </div>
-                   </div>
+                  </div>
                 </div>
               </div>
               <div class="row top-buffer">
@@ -895,39 +899,6 @@
         })[0].selectize;
 
         generateResult();
-
-        if (window.innerWidth < 1200) {
-          mainElement.querySelector('#fixedRightBar').style = '';
-        } else {
-          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
-        }
-
-        if (window.innerHeight < 550) {
-          mainElement.querySelector('#fixedRightBar').style = '';
-        } else {
-          mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
-        }
-
-        // This event listener toggles the fixed position in the right column to be active while on large screens
-        // and disabled while on smaller screens. Bootstrap breakpoint: lg
-        const breakpointLgHit = window.matchMedia("(min-width: 1200px)");
-        breakpointLgHit.addListener(event => {
-          if (event.matches) {
-            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
-          } else {
-            mainElement.querySelector('#fixedRightBar').style = '';
-          }
-        });
-
-        // This event listener ensures that the right column is visible on smaller heights
-        const breakpointHeightHit = window.matchMedia("(min-height: 550px)");
-        breakpointHeightHit.addListener(event => {
-          if (event.matches) {
-            mainElement.querySelector('#fixedRightBar').style = 'position: fixed; top: 5%; width: inherit; padding-right: 2%;';
-          } else {
-            mainElement.querySelector('#fixedRightBar').style = '';
-          }
-        });
 
         mainElement.querySelector('#activateAllFields').addEventListener('click', function() {
           mainElement.querySelectorAll('.metaFieldCheckbox').forEach(checkbox => {
