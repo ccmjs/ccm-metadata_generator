@@ -35,7 +35,7 @@
               <div class="row">
                 <div class="col-lg-8">
                   <h1>Metadata Generator</h1>
-                  <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 0.1.0</span></p>
+                  <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 1.0.0</span></p>
                   <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the "Result" panel.</p>
                   <div class="form-group">
                     <label for="inputTitle">Title</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: Hello World</span>
@@ -541,7 +541,7 @@
        */
       let metadataStore = {
         "metaFormat": "ccm-meta",
-        "metaVersion": "0.1.0",
+        "metaVersion": "1.0.0",
         "title": "",
         "version": "",
         "creator": "",
