@@ -150,38 +150,40 @@
                     <p class="help-block">An unambiguous reference to the resource within a given context.</p>
                   </div>
                   <div class="form-group">
-                    <label for="inputPath">Path</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/ccm.hello_world.js</span>
+                    <label for="inputPath-component">Path-Component <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a configuration, you could specify a URL to the component file that reads the configuration here." data-balloon-pos="right">
+                              <span class="info-icon">&#8505;</span>
+                            </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/ccm.hello_world.js</span>
                     <div class="input-group">
                       <span class="input-group-addon">
-                        <input type="checkbox" id="includePath" class="metaFieldCheckbox">
+                        <input type="checkbox" id="includePath-component" class="metaFieldCheckbox">
                       </span>
-                      <input type="url" class="form-control" id="inputPath">
+                      <input type="url" class="form-control" id="inputPath-component">
                     </div>
-                    <p class="help-block">URL where the resource can be found.</p>
+                    <p class="help-block">URL where the component can be found.</p>
                   </div>
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <div class="form-group">
-                        <label for="inputData">Data <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify a URL to a configuration file here. Likewise if the metadata is applied to a configuration a URL to the component could be specified." data-balloon-pos="right">
+                        <label for="inputPath-config">Path-Config <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="large" data-balloon="If the metadata is applied to a component, you could specify a URL to a configuration file here." data-balloon-pos="right">
                               <span class="info-icon">&#8505;</span>
                             </button></label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: https://example.com/configs.js</span>
                         <div class="input-group">
                           <span class="input-group-addon">
-                            <input type="checkbox" id="includeData" class="metaFieldCheckbox">
+                            <input type="checkbox" id="includePath-config" class="metaFieldCheckbox">
                           </span>
-                          <input type="url" class="form-control" id="inputData">
+                          <input type="url" class="form-control" id="inputPath-config">
                         </div>
-                        <p class="help-block">URL to additional data for the resource.</p>
+                        <p class="help-block">URL where the configuration can be found.</p>
                       </div>
                       <div class="form-group">
-                        <label for="inputData-key">Data-Key</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: demo</span>
+                        <label for="inputConfig-key">Config-Key</label> <span class="example-text" data-balloon-length="fit" data-balloon="Click to copy to clipboard." data-balloon-pos="up">Example: demo</span>
                         <div class="input-group">
                           <span class="input-group-addon">
-                            <input type="checkbox" id="includeData-key" class="metaFieldCheckbox">
+                            <input type="checkbox" id="includeConfig-key" class="metaFieldCheckbox">
                           </span>
-                          <input class="form-control" id="inputData-key">
+                          <input class="form-control" id="inputConfig-key">
                         </div>
-                        <p class="help-block">A key that defines where the data is found inside the resource that is mentioned in the data field.</p>
+                        <p class="help-block">A key that defines where the data is found inside the resource that is mentioned in the <samp>path-config</samp> field.</p>
                       </div>
                     </div>
                   </div>
@@ -520,9 +522,9 @@
         "date": false,
         "format": false,
         "identifier": false,
-        "path": false,
-        "data": false,
-        "data-key": false,
+        "path-component": false,
+        "path-config": false,
+        "config-key": false,
         "source": false,
         "language": false,
         "license": {
@@ -552,9 +554,9 @@
         "date": new Date().toISOString().split('T')[0],
         "format": "application/javascript",
         "identifier": "",
-        "path": "",
-        "data": "",
-        "data-key": "",
+        "path-component": "",
+        "path-config": "",
+        "config-key": "",
         "source": "",
         "language": "",
         "license": {
@@ -982,9 +984,9 @@
         createEventListenersForField('date');
         createEventListenersForField('format');
         createEventListenersForField('identifier');
-        createEventListenersForField('path');
-        createEventListenersForField('data');
-        createEventListenersForField('data-key');
+        createEventListenersForField('path-component');
+        createEventListenersForField('path-config');
+        createEventListenersForField('config-key');
         createEventListenersForField('source');
 
         mainElement.querySelector('#buttonGenerateIdentifier').addEventListener('click', function() {
@@ -1175,9 +1177,9 @@
           generateDate();
           generateWithoutInterpretation('format');
           generateWithoutInterpretation('identifier');
-          generateWithoutInterpretation('path');
-          generateWithoutInterpretation('data');
-          generateWithoutInterpretation('data-key');
+          generateWithoutInterpretation('path-component');
+          generateWithoutInterpretation('path-config');
+          generateWithoutInterpretation('config-key');
           generateWithoutInterpretation('source');
           generateWithInterpretation('language');
           generateLicense();
