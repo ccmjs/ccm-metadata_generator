@@ -36,7 +36,7 @@
                 <div class="col-md-8">
                   <h1>Metadata Generator</h1>
                   <p><em>ccm</em> Metadata Version <span class="label label-primary">ccm-meta 1.0.0</span></p>
-                  <p class="lead">Activate fields with their checkboxes. All changes will be visible live in the <a href="javascript: document.body.scrollIntoView(false);">Result</a> panel at the bottom of the page.</p>
+                  <p class="lead removeOnEmbed">Activate fields with their checkboxes. All changes will be visible live in the <a href="javascript: document.body.scrollIntoView(false);">Result</a> panel at the bottom of the page.</p>
                 </div>
                 <div class="col-md-4">
                   <div class="panel panel-default top-buffer">
@@ -447,7 +447,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row removeOnEmbed">
                 <div class="col-xs-12">
                   <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -487,6 +487,7 @@
       //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
+      embedded: false, // Set to true when this component is embedded in another website
       tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Tags the user can choose from
       categories: ['Art', 'Computer Science', 'Economy', 'History'], // Categories the user can choose from
     },
@@ -784,6 +785,15 @@
         this.element.appendChild(mainElement);
 
         /**
+         * Remove elements that should not be available when the component is embedded in another website
+         */
+        if (self.embedded) {
+          mainElement.querySelectorAll('.removeOnEmbed').forEach(element => {
+            element.parentNode.removeChild(element);
+          });
+        }
+
+        /**
          * Make example text selectable with one click
          */
         mainElement.querySelectorAll('.example-text').forEach(element => {
@@ -920,14 +930,16 @@
           generateResult();
         });
 
-        mainElement.querySelector('#settingArray').addEventListener('change', function() {
-          settings.interpretCommaAsArraySeparator = this.checked;
-          generateResult();
-        });
+        if (!self.embedded) {
+          mainElement.querySelector('#settingArray').addEventListener('change', function() {
+            settings.interpretCommaAsArraySeparator = this.checked;
+            generateResult();
+          });
 
-        mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function() {
-          copyToClipboard(generateResult());
-        });
+          mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function () {
+            copyToClipboard(generateResult());
+          });
+        }
 
         /**
          * Adds event listeners for checkbox and input of a field
@@ -1158,7 +1170,9 @@
           generateWithoutInterpretation('category');
           generateWithInterpretation('bloomTaxonomy');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
-          mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
+          if (!self.embedded) {
+            mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
+          }
           return resultingMetadataString;
         }
 
