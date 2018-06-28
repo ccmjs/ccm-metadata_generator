@@ -484,7 +484,6 @@
         }
       },
       css: [ 'ccm.load', [ 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/selectize.default.min.css', 'css/default.css' ] ],
-      //display_final_metadata: true, // If set to false, nothing will be displayed after generating the new metadata
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
       embedded: false, // Set to true when this component is embedded in another website
