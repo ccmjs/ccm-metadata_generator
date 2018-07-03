@@ -439,7 +439,7 @@
                       </div>
                     </div>
                     <div class="panel-body">
-                      <select id="inputBloomTaxonomy" multiple></select>
+                      <select id="inputBloomTaxonomy"></select>
                       <p class="help-block no-margin">
                         The revised form of Bloom’s Taxonomy is used. You can find out more about it <a href="https://cft.vanderbilt.edu/guides-sub-pages/blooms-taxonomy/" target="_blank">here</a>, <a href="https://tips.uark.edu/using-blooms-taxonomy/" target="_blank">here</a> and <a href="http://sciencesite.16mb.com/Bloom's%20Taxonomy%20Original%20and%20Revised%20by%20Mary%20Forehand.pdf" target="_blank">here</a>.
                       </p>
@@ -895,12 +895,10 @@
         ];
 
         const bloomTaxonomySelector = $(mainElement.querySelector('#inputBloomTaxonomy')).selectize({
-          delimiter: ',',
           persist: false,
           create: false,
-          plugins: ['remove_button'],
-          maxItems: null,
-          placeholder: 'Select all options that apply',
+          maxItems: 1,
+          placeholder: 'Select the highest level that applies to the resource',
           valueField: 'value',
           labelField: 'value',
           searchField: 'value',
@@ -1091,7 +1089,7 @@
         });
 
         bloomTaxonomySelector.on('change', () => {
-          metadataStore.bloomTaxonomy = bloomTaxonomySelector.getValue().join(', ');
+          metadataStore.bloomTaxonomy = bloomTaxonomySelector.getValue();
           generateResult();
         });
 
@@ -1167,7 +1165,7 @@
           generateLicense();
           generateWithInterpretation('tags');
           generateWithoutInterpretation('category');
-          generateWithInterpretation('bloomTaxonomy');
+          generateWithoutInterpretation('bloomTaxonomy');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           if (!self.embedded) {
             mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
