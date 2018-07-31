@@ -458,14 +458,6 @@
                     <div class="panel-body">
                       <form class="form-inline" style="margin-bottom: 15px;">
                         <button class="btn btn-default" id="buttonCopyResultToClipboard">Copy result to clipboard</button>
-                        <div class="checkbox" style="margin-left: 25px;">
-                          <label>
-                            <input type="checkbox" id="settingArray"> Interpret <code>,</code> as array separator
-                            <button type="button" class="btn btn-default btn-circle tooltip-toggle" data-balloon-length="medium" data-balloon="This also applies to multiselects like language." data-balloon-pos="right">
-                              <span class="info-icon">&#8505;</span>
-                            </button>
-                          </label>
-                        </div>
                         <button class="btn btn-default pull-right" onclick="event.preventDefault(); document.body.scrollIntoView(true);">Go to top</button>
                       </form>
                       <pre><samp id="resultDisplay">{}</samp></pre>
@@ -486,7 +478,7 @@
       css: [ 'ccm.load', [ 'css/bootstrap.min.css', 'css/balloon.min.css', 'css/selectize.default.min.css', 'css/default.css' ] ],
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
-      embedded: false, // Set to true when this component is embedded in another website
+      embedded: false, // Set to true when this component is embedded in another website and this site handles the result. This will hide the results panel
       tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Tags the user can choose from
       categories: ['Art', 'Computer Science', 'Economy', 'History'], // Categories the user can choose from
     },
@@ -502,14 +494,6 @@
        * @type {Instance}
        */
       const self = this;
-
-      /**
-       * Settings
-       * @type {{interpretCommaAsArraySeparator: boolean}}
-       */
-      let settings = {
-        interpretCommaAsArraySeparator: false
-      };
 
       /**
        * Stores which part of the metadata are active
@@ -928,11 +912,6 @@
         });
 
         if (!self.embedded) {
-          mainElement.querySelector('#settingArray').addEventListener('change', function() {
-            settings.interpretCommaAsArraySeparator = this.checked;
-            generateResult();
-          });
-
           mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function () {
             copyToClipboard(generateResult());
           });
@@ -1093,17 +1072,9 @@
           generateResult();
         });
 
-        function generateWithoutInterpretation(key) {
+        function generateMetaValue(key) {
           if (metadataActive[key]) {
             resultingMetadata[key] = metadataStore[key];
-          } else {
-            delete resultingMetadata[key];
-          }
-        }
-
-        function generateWithInterpretation(key) {
-          if (metadataActive[key]) {
-            resultingMetadata[key] = interpretValue(metadataStore[key]);
           } else {
             delete resultingMetadata[key];
           }
@@ -1147,43 +1118,30 @@
           resultingMetadata = {}; // This ensures that all keys are added in order
           resultingMetadata.metaFormat = metadataStore.metaFormat;
           resultingMetadata.metaVersion = metadataStore.metaVersion;
-          generateWithoutInterpretation('title');
-          generateWithoutInterpretation('version');
-          generateWithInterpretation('creator');
-          generateWithoutInterpretation('subject');
-          generateWithoutInterpretation('description');
-          generateWithInterpretation('publisher');
-          generateWithInterpretation('contributor');
+          generateMetaValue('title');
+          generateMetaValue('version');
+          generateMetaValue('creator');
+          generateMetaValue('subject');
+          generateMetaValue('description');
+          generateMetaValue('publisher');
+          generateMetaValue('contributor');
           generateDate();
-          generateWithoutInterpretation('format');
-          generateWithoutInterpretation('identifier');
-          generateWithoutInterpretation('path-component');
-          generateWithoutInterpretation('path-config');
-          generateWithoutInterpretation('config-key');
-          generateWithoutInterpretation('source');
-          generateWithInterpretation('language');
+          generateMetaValue('format');
+          generateMetaValue('identifier');
+          generateMetaValue('path-component');
+          generateMetaValue('path-config');
+          generateMetaValue('config-key');
+          generateMetaValue('source');
+          generateMetaValue('language');
           generateLicense();
-          generateWithInterpretation('tags');
-          generateWithoutInterpretation('category');
-          generateWithoutInterpretation('bloomTaxonomy');
+          generateMetaValue('tags');
+          generateMetaValue('category');
+          generateMetaValue('bloomTaxonomy');
           const resultingMetadataString = JSON.stringify(resultingMetadata, null, 2);
           if (!self.embedded) {
             mainElement.querySelector('#resultDisplay').innerHTML = resultingMetadataString;
           }
           return resultingMetadataString;
-        }
-
-        function interpretValue(value) {
-          if (settings.interpretCommaAsArraySeparator) {
-            // Only convert to an array if at least one comma is present
-            if (value.includes(',')) {
-              return value.split(',').map(value => value.trim());
-            } else {
-              return value;
-            }
-          } else {
-            return value;
-          }
         }
 
         function capitalizeFirstLetter(string) {
