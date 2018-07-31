@@ -1,6 +1,6 @@
 {
   "name": "ccm-metadata_generator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generate metadata for ccm components",
   "scripts": {
     "build": "node build.js"
