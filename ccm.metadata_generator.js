@@ -912,7 +912,8 @@
         });
 
         if (!self.embedded) {
-          mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function () {
+          mainElement.querySelector('#buttonCopyResultToClipboard').addEventListener('click', function (event) {
+            event.preventDefault();
             copyToClipboard(generateResult());
           });
         }
