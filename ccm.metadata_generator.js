@@ -336,42 +336,42 @@
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_1" value="﻿CC-BY-4.0"> ﻿﻿Creative Commons Attribution 4.0 International (CC-BY-4.0) <span class="label label-success">Recommended</span>
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_1" value="CC-BY-4.0"> ﻿﻿Creative Commons Attribution 4.0 International (CC-BY-4.0) <span class="label label-success">Recommended</span>
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_2" value="﻿﻿CC-BY-SA-4.0"> ﻿﻿﻿Creative Commons Attribution Share Alike 4.0 International (﻿CC-BY-SA-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_2" value="CC-BY-SA-4.0"> ﻿﻿﻿Creative Commons Attribution Share Alike 4.0 International (﻿CC-BY-SA-4.0)
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_3" value="﻿﻿﻿CC-BY-ND-4.0"> ﻿﻿﻿﻿Creative Commons Attribution No Derivatives 4.0 International (﻿CC-BY-ND-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_3" value="CC-BY-ND-4.0"> ﻿﻿﻿﻿Creative Commons Attribution No Derivatives 4.0 International (﻿CC-BY-ND-4.0)
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_4" value="﻿﻿﻿﻿CC-BY-NC-4.0"> ﻿Creative Commons Attribution Non Commercial 4.0 International (﻿CC-BY-NC-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_4" value="CC-BY-NC-4.0"> ﻿Creative Commons Attribution Non Commercial 4.0 International (﻿CC-BY-NC-4.0)
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_5" value="﻿﻿﻿﻿﻿CC-BY-NC-SA-4.0"> ﻿Creative Commons Attribution Non Commercial Share Alike 4.0 International (﻿CC-BY-NC-SA-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_5" value="CC-BY-NC-SA-4.0"> ﻿Creative Commons Attribution Non Commercial Share Alike 4.0 International (﻿CC-BY-NC-SA-4.0)
                                 </label>
                               </div>
                             </div>
                             <div class="form-group">
                               <div class="radio">
                                 <label class="radio-inline control-label">
-                                 <input type="radio" name="content_license_choose" id="content_license_choose_6" value="﻿﻿﻿﻿﻿﻿CC-BY-NC-ND-4.0"> ﻿Creative Commons Attribution Non Commercial No Derivatives 4.0 International﻿ (﻿CC-BY-NC-ND-4.0)
+                                 <input type="radio" name="content_license_choose" id="content_license_choose_6" value="CC-BY-NC-ND-4.0"> ﻿Creative Commons Attribution Non Commercial No Derivatives 4.0 International﻿ (﻿CC-BY-NC-ND-4.0)
                                 </label>
                               </div>
                             </div>
