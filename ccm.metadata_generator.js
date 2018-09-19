@@ -479,7 +479,7 @@
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
       embedded: false, // Set to true when this component is embedded in another website and this site handles the result. This will hide the results panel
-      categories: ['Art', 'Computer Science', 'Economy', 'History'], // Categories the user can choose from
+      categories: [ 'Anthropology', 'Art', 'Astronomy', 'Biology', 'Chemistry', 'Classic culture', 'Computer Science', 'Craft', 'Design', 'Economy', 'Emotional education', 'Engineering', 'English', 'Environment', 'Experimental sciences', 'French', 'General Studies', 'Geography', 'Geology', 'German', 'Health', 'History', 'Italian', 'Language', 'Latin', 'Laws', 'Literature', 'Mathematics', 'Music', 'Others', 'Pedagogy', 'Philosophy', 'Physical education', 'Physics', 'Politics', 'Psychology', 'Religion', 'Russian', 'Social sciences', 'Spanish', 'Sport', 'Teaching Tools', 'Technical Drawing', 'Technology', 'Values education', 'Vocational education' ], // Categories the user can choose from
     },
 
     /**
