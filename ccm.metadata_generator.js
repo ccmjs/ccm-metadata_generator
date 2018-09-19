@@ -479,7 +479,6 @@
       js: [ 'ccm.load', [ 'js/jquery.min.js', 'js/bootstrap.min.js', 'js/selectize.min.js' ] ],
       no_bootstrap_container: false, // Set to true if embedded on a site that already has a bootstrap container div
       embedded: false, // Set to true when this component is embedded in another website and this site handles the result. This will hide the results panel
-      tags: ['HTML', 'JavaScript', 'CSS', 'Education'], // Tags the user can choose from
       categories: ['Art', 'Computer Science', 'Economy', 'History'], // Categories the user can choose from
     },
 
@@ -814,11 +813,6 @@
          * Initialize the tag input
          */
         let tagOptions = [];
-        self.tags.forEach(tag => {
-          tagOptions.push({
-            value: tag
-          });
-        });
 
         const tagSelector = $(mainElement.querySelector('#inputTags')).selectize({
           delimiter: ',',
@@ -826,7 +820,7 @@
           create: true,
           plugins: ['remove_button'],
           maxItems: null,
-          placeholder: 'Select tags or add your own...',
+          placeholder: 'Add tags...',
           valueField: 'value',
           labelField: 'value',
           searchField: 'value',
