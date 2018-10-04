@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Client-side Component Model Metadata Schema",
+  "properties": {
+    "metaFormat": {
+      "type": "string",
+      "description": "Metadata format identifier.",
+      "default": "ccm-meta"
+    },
+    "metaVersion": {
+      "type": "string",
+      "description": "Metadata format version."
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the resource."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version number of the resource."
+    },
+    "creator": {
+      "type": "string",
+      "description": "An entity primarily responsible for making the resource. Multiple creators can be separated by commas(,)."
+    },
+    "subject": {
+      "type": "string",
+      "description": "Topic of the resource."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the resource."
+    },
+    "publisher": {
+      "type": "string",
+      "description": "An entity responsible for making the resource available. Multiple publishers can be separated by commas(,)."
+    },
+    "contributor": {
+      "type": "string",
+      "description": "An entity responsible for making contributions to the resource. Multiple contributors can be separated by commas(,)."
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date the resource was published. Format: YYYY-MM-DD"
+    },
+    "format": {
+      "type": "string",
+      "enum": [ "application/javascript", "application/json" ],
+      "description": "The file format of the resource."
+    },
+    "identifier": {
+      "type": "string",
+      "description": "An unambiguous reference to the resource within a given context."
+    },
+    "path-component": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the component can be found."
+    },
+    "path-config": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL where the configuration can be found."
+    },
+    "config-key": {
+      "type": "string",
+      "description": "A key that defines where the data is found inside the resource that is mentioned in the path-config field."
+    },
+    "source": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to a related resource from which this resource is derived."
+    },
+    "language": {
+      "type": "string",
+      "description": "Supported languages by the resource. Multiple languages can be separated by commas(,). The languages are identified by there 2 letter ISO 639-1 notation."
+    },
+    "license": {
+      "type": "object",
+      "description": "The license information is split between the software and content part of the resource.",
+      "properties": {
+        "software": {
+          "type": "string",
+          "description": "Software license of the resource."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content license of the resource."
+        }
+      }
+    },
+    "tags": {
+      "type": "string",
+      "description": "Tags that describe the resource. Multiple tags can be separated by commas(,)."
+    },
+    "category": {
+      "type": "string",
+      "description": "Category that best fits the resource."
+    },
+    "bloomTaxonomy": {
+      "type": "string",
+      "enum": [ "Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create" ],
+      "description": "States the level defined by Blooms's Taxonomy. The revised form of Bloom's Taxonomy is used. Applicable in context of learning resources."
+    }
+  }
+}
