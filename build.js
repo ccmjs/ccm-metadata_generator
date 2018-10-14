@@ -14,7 +14,7 @@ fs.readFile('ccm.metadata_generator.js', 'utf8', function (err, data) {
     .replace(/css\/balloon.min.css/g, 'https://cdnjs.cloudflare.com/ajax/libs/balloon-css/0.5.0/balloon.min.css')
     .replace(/css\/bootstrap.min.css/g, 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     .replace(/css\/selectize.default.min.css/g, 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.default.min.css')
-    .replace(/js\/ccm-16.3.0.js/g, 'https://ccmjs.github.io/ccm/versions/ccm-16.3.0.min.js')
+    .replace(/js\/ccm-18.0.5.js/g, 'https://ccmjs.github.io/ccm/versions/ccm-18.0.5.min.js')
     .replace(/js\/jquery.min.js/g, 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     .replace(/js\/bootstrap.min.js/g, 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
     .replace(/js\/selectize.min.js/g, 'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.min.js')
